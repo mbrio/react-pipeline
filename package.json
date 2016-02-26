@@ -4,8 +4,11 @@
   "description": "A pipeline for executing tasks described in React & JSX",
   "main": "src/index.js",
   "scripts": {
+    "pretest": "npm run lint && npm run build",
     "test": "jest",
-    "lint": "eslint *.js src/*.js src/**/*.js"
+    "build": "babel -d lib/ src/",
+    "prepublish": "npm run build",
+    "lint": "eslint *.js src/*.js src/**/*.js spec/*.js spec/**/*.js"
   },
   "engines": {
     "node": ">=4"
@@ -15,11 +18,28 @@
     "email": "michael.diolosa@gmail.com",
     "url": "http://twitter.com/mbrio"
   },
+  "babel": {
+    "plugins": ["transform-decorators-legacy"],
+    "presets": ["es2015", "react", "stage-0"]
+  },
   "eslintConfig": {
     "parser": "babel-eslint",
     "rules": {
       "strict": 0
     }
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "testFileExtensions": ["js"],
+    "moduleFileExtensions": ["js", "json"],
+    "testDirectoryName": "spec/unit",
+    "setupTestFrameworkScriptFile": "<rootDir>/spec/bootstrap.js",
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react",
+      "<rootDir>/node_modules/react-dom",
+      "<rootDir>/node_modules/fbjs",
+      "<rootDir>/node_modules/core-js"
+    ]
   },
   "license": "BSD-3-Clause",
   "repository": {
