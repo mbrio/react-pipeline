@@ -17,6 +17,6 @@ export default class PipelineElement {
       });
     }
 
-    return !hasError && element.type.prototype instanceof Task;
+    return !hasError && (element.type.prototype instanceof Task || element.type === Task);
   }
 }
