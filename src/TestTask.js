@@ -15,7 +15,7 @@ export default class TestTask extends Task {
       setTimeout(() => {
         method();
         resolve();
-      }, 5000);
+      }, 1000);
     });
   }
 }

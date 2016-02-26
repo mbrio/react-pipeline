@@ -9,17 +9,10 @@ export default class Pipeline extends Task {
 
   static contextTypes = {};
 
-  static __pipeline = null;
-
   getChildContext() {
     return {
       pipeline: this,
       tasks: this
     };
-  }
-
-  constructor(props, context) {
-    super(props, context);
-    Pipeline.__pipeline = this;
   }
 }
