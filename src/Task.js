@@ -1,5 +1,16 @@
 import React from 'react';
 
+// TODO: Remove .render necessity, will need to implement new ReactComponent
+//       like ReactCompositeComponent:
+//
+// ReactCompositeComponent.mountComponent calls ->
+//   ReactReconciler.mountComponent calls ->
+//     ReactDOMComponent.mountComponent
+//
+// I think the key here is going to create my own ReactPipelineComponent and
+// have ReactReconciler call ReactPipelineComponent instead of
+// ReactDOMComponent. As of right now I'm unsure how I would go about this.
+
 export default class Task extends React.Component {
   static childContextTypes = {
     tasks: React.PropTypes.object.isRequired
