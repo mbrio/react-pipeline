@@ -1,7 +1,7 @@
 import React from 'react';
-import TaskCollection from './TaskCollection';
+import Task from './Task';
 
-export default class ParallelTask extends TaskCollection {
+export default class ParallelTask extends Task {
   async run() {
     await Promise.all(this.tasks.map(task => task()));
   }

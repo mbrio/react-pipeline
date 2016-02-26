@@ -4,24 +4,24 @@ import ReactDOMServer from 'react-dom/server';
 import Pipeline from './src/Pipeline';
 import TestTask from './src/TestTask';
 import ParallelTask from './src/ParallelTask';
-import SeriesTask from './src/SeriesTask';
+import Task from './src/Task';
 import ReactPipeline from './src/ReactPipeline';
 
 export default async function main() {
   await ReactPipeline.render(
     <Pipeline>
-      <SeriesTask>
+      <Task>
         <ParallelTask>
           <TestTask id={1} />
           <TestTask id={2} />
         </ParallelTask>
-      </SeriesTask>
-      <SeriesTask>
+      </Task>
+      <Task>
         <ParallelTask>
           <TestTask id={4} />
           <TestTask id={5} />
         </ParallelTask>
-      </SeriesTask>
+      </Task>
     </Pipeline>
   );
 }

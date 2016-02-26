@@ -1,28 +1,25 @@
 import React from 'react';
-import SeriesTask from './SeriesTask';
+import Task from './Task';
 
-export default class Pipeline extends SeriesTask {
-  static childContextTypes = Object.assign({}, SeriesTask.childContextTypes, {
-    pipeline: React.PropTypes.object.isRequired
-  });
+export default class Pipeline extends Task {
+  static childContextTypes = {
+    pipeline: React.PropTypes.object.isRequired,
+    tasks: React.PropTypes.object.isRequired
+  };
 
   static contextTypes = {};
+
   static __pipeline = null;
 
-  tasks = [];
-
   getChildContext() {
-    return Object.assign({}, super.getChildContext(), {
-      pipeline: this
-    });
+    return {
+      pipeline: this,
+      tasks: this
+    };
   }
 
-  constructor() {
-    super();
-
+  constructor(props, context) {
+    super(props, context);
     Pipeline.__pipeline = this;
-  }
-
-  componentWillMount() {
   }
 }

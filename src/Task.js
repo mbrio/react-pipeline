@@ -2,6 +2,10 @@ import React from 'react';
 import Pipeline from './Pipeline';
 
 export default class Task extends React.Component {
+  static childContextTypes = {
+    tasks: React.PropTypes.object.isRequired
+  };
+
   static contextTypes = {
     pipeline: React.PropTypes.object.isRequired,
     tasks: React.PropTypes.object.isRequired
@@ -27,12 +31,29 @@ export default class Task extends React.Component {
     }
   };
 
-  async run() {
-    throw new Error('The task must specify an async #run() method.');
+  tasks = [];
+
+  getChildContext() {
+    return { tasks: this };
   }
 
-  componentWillMount() {
-    this.context.tasks.enqueue(this.run.bind(this));
+  constructor(props, context) {
+    super(props, context);
+
+    if (context && context.tasks) {
+      context.tasks.enqueue(this.run.bind(this));
+    }
+  }
+
+  enqueue(task) {
+    this.tasks.push(task);
+  }
+
+  async run() {
+    for(let i = 0, j = this.tasks.length; i < j; i++) {
+      const task = this.tasks[i];
+      await task();
+    }
   }
 
   render() {
