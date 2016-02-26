@@ -1,6 +1,6 @@
 import React from 'react';
 import autobind from 'autobind-decorator';
-import Task from './Task';
+import { Task } from '../lib';
 
 export default class TestTask extends Task {
   @autobind
