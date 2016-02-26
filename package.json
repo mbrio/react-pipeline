@@ -8,6 +8,7 @@
     "test": "jest",
     "build": "babel -d lib/ src/",
     "prepublish": "npm run build",
+    "clean": "rimraf lib",
     "lint": "eslint *.js src/*.js src/**/*.js spec/*.js spec/**/*.js"
   },
   "engines": {
