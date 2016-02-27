@@ -31,16 +31,25 @@
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "testRunner": "<rootDir>/node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js",
     "testFileExtensions": ["js"],
     "moduleFileExtensions": ["js", "json"],
     "testDirectoryName": "spec/unit",
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
     "setupTestFrameworkScriptFile": "<rootDir>/spec/bootstrap.js",
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/react",
       "<rootDir>/node_modules/react-dom",
       "<rootDir>/node_modules/fbjs",
       "<rootDir>/node_modules/core-js"
-    ]
+    ],
+    "verbose": true,
+    "testPathDirs": [
+     "lib",
+     "spec"
+   ]
   },
   "license": "BSD-3-Clause",
   "repository": {

@@ -3,19 +3,14 @@ import autobind from 'autobind-decorator';
 import { Task } from '../lib';
 
 export default class TestTask extends Task {
-  @autobind
   handleSomething(e) {
-    console.log('test', this.props.id);
+    return new Promise ((resolve, reject) => {
+      console.log('test', this.props.id);
+      resolve();
+    });
   }
 
   async run() {
-    const method = this.handleSomething;
-
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        method();
-        resolve();
-      }, 1000);
-    });
+    await this.handleSomething();
   }
 }

@@ -16,7 +16,7 @@ export default class ReactPipeline {
   static async run(element) {
     invariant(
       PipelineElement.isValidElement(element),
-      'render(): You must pass a valid PipelineElement.'
+      'run(): You must pass a valid PipelineElement.'
     );
 
     let transaction;
@@ -33,7 +33,9 @@ export default class ReactPipeline {
 
           const inst = componentInstance._instance;
 
-          inst.run().then(resolve).catch(reject);
+          inst.run()
+            .then(() => resolve(mountedComponent))
+            .catch(reject);
         }, null);
       });
     } finally {
