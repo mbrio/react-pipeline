@@ -10,9 +10,15 @@ export default class TestTask extends Task {
   handleSomething(e) {
     return new Promise ((resolve, reject) => {
       if (this.props.callback) {
-        this.props.callback();
+        const result = this.props.callback.call(this);
+        if (result && typeof result.then === 'function') {
+          result.then(resolve).catch(reject);
+        } else {
+          resolve();
+        }
+      } else {
+        resolve();
       }
-      resolve();
     });
   }
 

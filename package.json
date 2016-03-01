@@ -20,8 +20,14 @@
     "url": "http://twitter.com/mbrio"
   },
   "babel": {
-    "plugins": ["transform-decorators-legacy"],
-    "presets": ["es2015", "react", "stage-0"]
+    "plugins": [
+      "transform-decorators-legacy"
+    ],
+    "presets": [
+      "es2015",
+      "react",
+      "stage-0"
+    ]
   },
   "eslintConfig": {
     "parser": "babel-eslint",
@@ -32,8 +38,13 @@
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
     "testRunner": "<rootDir>/node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js",
-    "testFileExtensions": ["js"],
-    "moduleFileExtensions": ["js", "json"],
+    "testFileExtensions": [
+      "js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json"
+    ],
     "testDirectoryName": "spec/unit",
     "testPathIgnorePatterns": [
       "/node_modules/"
@@ -47,9 +58,9 @@
     ],
     "verbose": true,
     "testPathDirs": [
-     "lib",
-     "spec"
-   ]
+      "lib",
+      "spec"
+    ]
   },
   "license": "BSD-3-Clause",
   "repository": {
@@ -62,21 +73,22 @@
     "pipeline"
   ],
   "dependencies": {
+    "fbjs": "^0.7.2",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7"
+  },
+  "devDependencies": {
     "autobind-decorator": "^1.3.3",
+    "babel-cli": "^6.6.0",
     "babel-core": "^6.5.2",
+    "babel-eslint": "^5.0.0",
+    "babel-jest": "^6.0.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-polyfill": "^6.5.0",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.5.2",
-    "fbjs": "^0.7.2",
-    "react": "^0.14.7",
-    "react-dom": "^0.14.7"
-  },
-  "devDependencies": {
-    "babel-eslint": "^5.0.0",
-    "babel-jest": "^6.0.1",
     "eslint": "^2.2.0",
     "eslint-plugin-react": "^4.1.0",
     "jest-cli": "^0.8.2"
