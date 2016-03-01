@@ -35,7 +35,8 @@ export default class ReactPipeline {
 
     let transaction;
     try {
-      ReactUpdates.injection.injectBatchingStrategy(ReactServerBatchingStrategy);
+      ReactUpdates.injection
+        .injectBatchingStrategy(ReactServerBatchingStrategy);
 
       const id = ReactInstanceHandles.createReactRootID();
       transaction = ReactServerRenderingTransaction.getPooled(true);
@@ -43,7 +44,8 @@ export default class ReactPipeline {
       return new Promise((resolve, reject) => {
         transaction.perform(function () {
           const componentInstance = instantiateReactComponent(element, null);
-          const mountedComponent = componentInstance.mountComponent(id, transaction, emptyObject);
+          const mountedComponent = componentInstance
+            .mountComponent(id, transaction, emptyObject);
 
           const inst = componentInstance._instance;
           // Execute the tasks
@@ -56,7 +58,8 @@ export default class ReactPipeline {
       ReactServerRenderingTransaction.release(transaction);
       // Revert to the DOM batching strategy since these two renderers
       // currently share these stateful modules.
-      ReactUpdates.injection.injectBatchingStrategy(ReactDefaultBatchingStrategy);
+      ReactUpdates.injection
+        .injectBatchingStrategy(ReactDefaultBatchingStrategy);
     }
   }
 }

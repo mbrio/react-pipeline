@@ -22,7 +22,8 @@ describe('PipelineElement', () => {
 
     it('fails validation with an object that is not a pipeline element', () => {
       expect(PipelineElement.isValidElement({})).toBe(false);
-      expect(PipelineElement.isValidElement(<EmptyReactComponent />)).toBe(false);
+      expect(PipelineElement.isValidElement(<EmptyReactComponent />))
+        .toBe(false);
     });
 
     it('succeeds validation with an object that is a pipeline element', () => {

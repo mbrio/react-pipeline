@@ -47,8 +47,9 @@ describe('PipelineElement', () => {
 
     it('executes child tasks', async (done) => {
       const mockCallback = jest.genMockFunction();
-      ReactPipeline.start(<Pipeline><TestTask callback={mockCallback} /></Pipeline>)
-        .then(data => {
+      ReactPipeline.start(
+        <Pipeline><TestTask callback={mockCallback} /></Pipeline>
+      ).then(data => {
           expect(data).toBe('<div><div></div></div>');
           expect(mockCallback.mock.calls.length).toBe(1);
 
@@ -59,8 +60,9 @@ describe('PipelineElement', () => {
 
     it('executes multiple levels of child tasks', async (done) => {
       const mockCallback = jest.genMockFunction();
-      ReactPipeline.start(<Pipeline><Task><TestTask callback={mockCallback} /></Task></Pipeline>)
-        .then(data => {
+      ReactPipeline.start(
+        <Pipeline><Task><TestTask callback={mockCallback} /></Task></Pipeline>
+      ).then(data => {
           expect(data).toBe('<div><div><div></div></div></div>');
           expect(mockCallback.mock.calls.length).toBe(1);
 

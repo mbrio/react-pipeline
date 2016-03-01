@@ -22,13 +22,17 @@ export default class PipelineElement {
     const childrenCount = React.Children.count(element.props.children);
 
     if (childrenCount === 1) {
-      if (!PipelineElement.isValidElement(element.props.children)) { hasError = true; }
+      if (!PipelineElement.isValidElement(element.props.children)) {
+        hasError = true;
+      }
     } else if (childrenCount > 1) {
       element.props.children.forEach(c => {
         if (!PipelineElement.isValidElement(c)) { hasError = true; }
       });
     }
 
-    return !hasError && (element.type.prototype instanceof Task || element.type === Task);
+    return !hasError && (
+      element.type.prototype instanceof Task || element.type === Task
+    );
   }
 }
