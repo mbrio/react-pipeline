@@ -11,61 +11,110 @@ import React from 'react';
 // have ReactReconciler call ReactPipelineComponent instead of
 // ReactDOMComponent. As of right now I'm unsure how I would go about this.
 
+/**
+ * Handles the execution of a task and it's children.
+ * @class
+ */
 export default class Task extends React.Component {
+  /**
+   * Provides context for it's child tasks. The tasks context is assigned to
+   * itself so children can register their run command.
+   *
+   * When inheriting from Task and supplying a child context it is necessary
+   * to ensure the new class supplies the tasks context.
+   *
+   * @example
+   * // tasks: React.PropTypes.object.isRequired
+   */
   static childContextTypes = {
     tasks: React.PropTypes.object.isRequired
   };
 
+  /**
+   * Tasks require a pipeline context which corresponds to the root Pipeline
+   * element; and they require a tasks context to register their run command.
+   */
   static contextTypes = {
     pipeline: React.PropTypes.object.isRequired,
     tasks: React.PropTypes.object.isRequired
   };
 
-  static propTypes = {
-    children: function (props, propName, componentName) {
-      let hasError = null;
-
-      if (React.Children.count(props.children) === 1) {
-        if (!(props.children.type.prototype instanceof this.constructor)) {
-          hasError = new Error('Child found is not a Task');
-        }
-      } else if (React.Children.count(props.children) > 1) {
-        props.children.forEach(c => {
-          if (!(c.type.prototype instanceof this.constructor)) {
-            hasError = new Error('Child found is not a Task');
-          }
-        });
-      }
-
-      return hasError;
-    }
-  };
-
+  /**
+   * Child tasks to execute.
+   */
   tasks = [];
 
+  /**
+   * The child context, set's the tasks context to itself.
+   * @return {object} the child context
+   */
   getChildContext() {
     return { tasks: this };
   }
 
+  /**
+   * Constructor for Task. Registers itself with it's tasks context.
+   */
   constructor(props, context) {
     super(props, context);
 
+    this.registerTask(context);
+  }
+
+  /**
+   * Registers itself with it's tasks context.
+   */
+  registerTask(context) {
+    // Register the Task's run method with it's parent tasks context.
     if (context && context.tasks) {
-      context.tasks.enqueue(this.run.bind(this));
+      context.tasks.enqueue(this.start.bind(this));
     }
   }
 
+  /**
+   * Pushes a function onto the child task list.
+   */
   enqueue(task) {
     this.tasks.push(task);
   }
 
-  async run() {
+  /**
+   * Starts the execution of the task. Handles executing all registered child
+   * tasks. Inheritors should be careful about overriding this function as it
+   * will effect the execution of registered child tasks. Executes it's own
+   * run command prior to executing it's children's.
+   * @return {Promise<undefined,Error>} The promise associated with the async
+   *                                    tasks.
+   */
+  async start() {
+    if (this.componentWillExec) {
+      this.componentWillExec();
+    }
+
+    await this.exec();
+
     for(let i = 0, j = this.tasks.length; i < j; i++) {
       const task = this.tasks[i];
       await task();
     }
+
+    if (this.componentDidExec) {
+      this.componentDidExec();
+    }
   }
 
+  /**
+   * The task's main execution function. Inheritors should override this
+   * method in order to add task functionality.
+   * @return {Promise<undefined,Error>} The promise associated with the async
+   *                                    task.
+   */
+  async exec() {
+  }
+
+  /**
+   * Necessary for compatibility with server renderer.
+   */
   render() {
     return <div>{this.props.children}</div>;
   }

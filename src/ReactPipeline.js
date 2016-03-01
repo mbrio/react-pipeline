@@ -12,11 +12,25 @@ import emptyObject from 'fbjs/lib/emptyObject';
 import instantiateReactComponent from 'react/lib/instantiateReactComponent';
 import invariant from 'fbjs/lib/invariant';
 
+/**
+ * Class for executing a React pipeline.
+ * @class
+ */
 export default class ReactPipeline {
-  static async run(element) {
+  /**
+   * Runs all of tasks within the pipeline. This is identical to the server
+   * rendering that ships with React, with the addition of the start function.
+   * I've modelled the run execution in the way componentWillMount is called.
+   * Unlike componentDidMount, componentWillMount is not added to the queueu,
+   * it's just executed directly within the component.
+   * @param {ReactElement} element
+   * @return {Promise<string, Error>} the Promise associated with the Task tree
+   *                                  execution, resolves to the rendered HTML
+   */
+  static async start(element) {
     invariant(
       PipelineElement.isValidElement(element),
-      'run(): You must pass a valid PipelineElement.'
+      'start(): You must pass a valid PipelineElement.'
     );
 
     let transaction;
@@ -32,8 +46,8 @@ export default class ReactPipeline {
           const mountedComponent = componentInstance.mountComponent(id, transaction, emptyObject);
 
           const inst = componentInstance._instance;
-
-          inst.run()
+          // Execute the tasks
+          inst.start()
             .then(() => resolve(mountedComponent))
             .catch(reject);
         }, null);
