@@ -32,37 +32,29 @@ describe('PipelineElement', () => {
       expect(failing).toThrow();
     });
 
-    it('executes empty pipeline', (done) => {
-      ReactPipeline.start(<Pipeline/>)
+    pit('executes empty pipeline', () => {
+      return ReactPipeline.start(<Pipeline/>)
         .then(data => {
           expect(data).toBe('<div></div>');
-          done();
-        })
-        .catch(fail);
+        });
     });
 
-    it('executes child tasks', (done) => {
+    pit('executes child tasks', () => {
       const mockCallback = jest.genMockFunction();
-      ReactPipeline.start(
+      return ReactPipeline.start(
         <Pipeline><TestTask callback={mockCallback} /></Pipeline>
       ).then(data => {
-          expect(mockCallback.mock.calls.length).toBe(1);
-
-          done();
-        })
-        .catch(fail);
+        expect(mockCallback.mock.calls.length).toBe(1);
+      });
     });
 
-    it('executes multiple levels of child tasks', (done) => {
+    pit('executes multiple levels of child tasks', () => {
       const mockCallback = jest.genMockFunction();
-      ReactPipeline.start(
+      return ReactPipeline.start(
         <Pipeline><Task><TestTask callback={mockCallback} /></Task></Pipeline>
       ).then(data => {
-          expect(mockCallback.mock.calls.length).toBe(1);
-
-          done();
-        })
-        .catch(fail);
+        expect(mockCallback.mock.calls.length).toBe(1);
+      });
     });
   });
 });

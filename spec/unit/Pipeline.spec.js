@@ -14,26 +14,24 @@ const TestTask = require('../TestTask').default;
 
 describe('Pipeline', () => {
   describe('childContext', () => {
-    it('contains pipeline property that inherits from Pipeline', async (done) => {
+    pit('contains pipeline property that inherits from Pipeline', () => {
       function callback() {
         expect(this.context.pipeline).toBeDefined();
         expect(this.context.pipeline instanceof Pipeline).toBe(true);
-        done();
       };
 
-      ReactPipeline.start(
+      return ReactPipeline.start(
         <Pipeline><TestTask callback={callback} /></Pipeline>
       );
     });
 
-    it('contains tasks property that inherits from Pipeline', async (done) => {
+    pit('contains tasks property that inherits from Pipeline', () => {
       function callback() {
         expect(this.context.tasks).toBeDefined();
         expect(this.context.tasks instanceof Pipeline).toBe(true);
-        done();
       };
 
-      ReactPipeline.start(
+      return ReactPipeline.start(
         <Pipeline><TestTask callback={callback} /></Pipeline>
       );
     });

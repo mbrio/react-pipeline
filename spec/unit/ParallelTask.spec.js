@@ -20,19 +20,16 @@ const EmptyReactComponent = require('../EmptyReactComponent').default;
 
 describe('ParallelTask', () => {
   describe('start', () => {
-    it('executes own task', (done) => {
+    pit('executes own task', () => {
       const mockCallback = jest.genMockFunction();
-      ReactPipeline.start(
+      return ReactPipeline.start(
         <Pipeline><ParallelTestTask callback={mockCallback} /></Pipeline>
       ).then(data => {
-          expect(mockCallback.mock.calls.length).toBe(1);
-
-          done();
-        })
-        .catch(fail);
+        expect(mockCallback.mock.calls.length).toBe(1);
+      })
     });
 
-    it('executes child tasks in parallel', (done) => {
+    pit('executes child tasks in parallel', () => {
       const mockCallback = jest.genMockFunction();
       const sleeper = (dur) => {
         return () => {
@@ -51,7 +48,7 @@ describe('ParallelTask', () => {
         };
       }
 
-      ReactPipeline.start(
+      return ReactPipeline.start(
         <Pipeline>
           <ParallelTask>
             <TestTask callback={sleeper(500)} />
@@ -59,11 +56,9 @@ describe('ParallelTask', () => {
           </ParallelTask>
         </Pipeline>
       ).then(data => {
-          expect(mockCallback.mock.calls.length).toBe(2);
-
-          done();
-        })
-        .catch(fail);
+        expect(mockCallback.mock.calls.length).toBe(2);
+      })
+      .catch(fail);
     });
   });
 });

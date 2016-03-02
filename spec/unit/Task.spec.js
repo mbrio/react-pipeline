@@ -14,43 +14,46 @@ const TestTask = require('../TestTask').default;
 
 describe('Task', () => {
   describe('childContext', () => {
-    it('contains tasks property that inherits from Task, but not necessarily Pipeline', (done) => {
-      function callback() {
+    pit('contains tasks property that inherits from Task, but not necessarily Pipeline', () => {
+      const callback = jest.genMockFunction().mockImplementation(function () {
         expect(this.context.tasks).toBeDefined();
         expect(this.context.tasks instanceof Task).toBe(true);
         expect(this.context.tasks instanceof Pipeline).not.toBe(true);
-        done();
-      };
+      });
 
-      ReactPipeline.start(
+      return ReactPipeline.start(
         <Pipeline><Task><TestTask callback={callback} /></Task></Pipeline>
-      );
+      ).then(() => {
+        expect(callback).toBeCalled();
+      });
     });
   });
 
   describe('context', () => {
-    it('contains tasks property that inherits from Task', (done) => {
-      function callback() {
+    pit('contains tasks property that inherits from Task', () => {
+      const callback = jest.genMockFunction().mockImplementation(function () {
         expect(this.context.tasks).toBeDefined();
         expect(this.context.tasks instanceof Task).toBe(true);
-        done();
-      };
+      });
 
-      ReactPipeline.start(
+      return ReactPipeline.start(
         <Pipeline><Task><TestTask callback={callback} /></Task></Pipeline>
-      );
+      ).then(() => {
+        expect(callback).toBeCalled();
+      });
     });
 
-    it('contains pipeline property that inherits from Pipeline', (done) => {
-      function callback() {
+    pit('contains pipeline property that inherits from Pipeline', () => {
+      const callback = jest.genMockFunction().mockImplementation(function () {
         expect(this.context.pipeline).toBeDefined();
         expect(this.context.pipeline instanceof Pipeline).toBe(true);
-        done();
-      };
+      });
 
-      ReactPipeline.start(
+      return ReactPipeline.start(
         <Pipeline><Task><TestTask callback={callback} /></Task></Pipeline>
-      );
+      ).then(() => {
+        expect(callback).toBeCalled();
+      });
     });
   });
 
@@ -112,60 +115,56 @@ describe('Task', () => {
     });
     
     describe('componentDidExec', () => {
-      it('should execute if defined on component', (done) => {
+      pit('should execute if defined on component', () => {
         const mockCallback = jest.genMockFunction();
         const task = new TestTask({}, {});
 
         task.componentDidExec = mockCallback;
-        task.start().then(() => {
+        return task.start().then(() => {
           expect(mockCallback).toBeCalled();
-          done();
         });
       });
 
-      it('should execute if defined on component', (done) => {
+      pit('should execute if defined on component', () => {
         const mockCallback = jest.genMockFunction();
         const task = new TestTask({}, {});
 
         task.enqueue(mockCallback);
         task.componentDidExec = mockCallback;
-        task.start().then(() => {
+        return task.start().then(() => {
           expect(mockCallback.mock.calls.length).toBe(2);
-          done();
         });
       });
     });
 
-    it('should execute exec', (done) => {
+    pit('should execute exec', () => {
       const mockCallback = jest.genMockFunction().mockImplementation(() => {
         return Promise.resolve();
       });
       const task = new TestTask({}, {});
 
       task.exec = mockCallback;
-      task.start().then(() => {
+      return task.start().then(() => {
         expect(mockCallback).toBeCalled();
-        done();
       });
     });
 
-    it('should execute queued tasks', () => {
+    pit('should execute queued tasks', () => {
       const mockCallback = jest.genMockFunction();
       const task = new TestTask({}, {});
 
       task.enqueue(mockCallback);
-      task.start().then(() => {
+      return task.start().then(() => {
         expect(mockCallback).toBeCalled();
       });
     });
   });
 
   describe('render', () => {
-    it('should render basic content', (done) => {
-      ReactPipeline.start(<Pipeline><Task /></Pipeline>)
+    pit('should render basic content', () => {
+      return ReactPipeline.start(<Pipeline><Task /></Pipeline>)
         .then(content => {
           expect(content).toBe('<div><div></div></div>');
-          done();
         });
     });
   });
