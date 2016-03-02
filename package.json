@@ -24,7 +24,8 @@
       "es2015",
       "react",
       "stage-0"
-    ]
+    ],
+    "auxiliaryCommentBefore": "istanbul ignore next"
   },
   "eslintConfig": {
     "parser": "babel-eslint",
@@ -43,6 +44,7 @@
       "<rootDir>/src/index.js": true
     },
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "preprocessCachingDisabled": true,
     "testRunner": "<rootDir>/node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js",
     "testFileExtensions": [
       "js"

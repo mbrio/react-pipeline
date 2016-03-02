@@ -1,4 +1,4 @@
-jest.dontMock('../../lib');
+jest.dontMock('../../src');
 jest.dontMock('../../src/PipelineElement');
 jest.dontMock('../../src/ReactPipeline');
 jest.dontMock('../../src/Task');
