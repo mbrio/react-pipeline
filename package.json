@@ -9,7 +9,7 @@
     "test": "jest",
     "doc": "esdoc -c .esdoc.json",
     "build": "babel -d lib/ src/",
-    "prepublish": "npm run test && npm run build && npm run doc",
+    "prepublish": "npm run test && npm run doc && npm run build",
     "clean": "rimraf lib coverage doc",
     "lint": "eslint src/*.js src/**/*.js spec/*.js spec/**/*.js"
   },
