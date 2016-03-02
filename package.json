@@ -8,8 +8,8 @@
     "test": "jest",
     "build": "babel -d lib/ src/",
     "prepublish": "npm run build",
-    "clean": "rimraf lib",
-    "lint": "eslint *.js src/*.js src/**/*.js spec/*.js spec/**/*.js"
+    "clean": "rimraf lib coverage",
+    "lint": "eslint src/*.js src/**/*.js spec/*.js spec/**/*.js"
   },
   "engines": {
     "node": ">=4"
@@ -33,6 +33,7 @@
     }
   },
   "jest": {
+    "collectCoverage": true,
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
     "testRunner": "<rootDir>/node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js",
     "testFileExtensions": [
