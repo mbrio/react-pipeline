@@ -7,9 +7,10 @@
     "prebuild": "npm run lint",
     "pretest": "npm run lint",
     "test": "jest",
+    "doc": "esdoc -c .esdoc.json",
     "build": "babel -d lib/ src/",
-    "prepublish": "npm run test && npm run build",
-    "clean": "rimraf lib coverage",
+    "prepublish": "npm run test && npm run build && npm run doc",
+    "clean": "rimraf lib coverage doc",
     "lint": "eslint src/*.js src/**/*.js spec/*.js spec/**/*.js"
   },
   "engines": {
@@ -93,6 +94,8 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "babel-runtime": "^6.6.1",
+    "esdoc": "^0.4.5",
+    "esdoc-es7-plugin": "0.0.3",
     "eslint": "^2.2.0",
     "eslint-plugin-react": "^4.1.0",
     "jest-cli": "^0.9.0-fb3",
