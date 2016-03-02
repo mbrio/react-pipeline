@@ -1,6 +1,6 @@
 # react-pipeline
 
-A pipeline for executing tasks described in React &amp; JSX
+A pipeline for executing tasks described in JSX.
 
 ## License
 
