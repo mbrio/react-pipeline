@@ -1,5 +1,6 @@
 import React from 'react';
 import Task from '../src/Task';
+import { callbackExec } from './helper';
 
 export default class TestTask extends Task {
   static propTypes = {
@@ -7,18 +8,7 @@ export default class TestTask extends Task {
   };
 
   handleSomething() {
-    return new Promise ((resolve, reject) => {
-      if (this.props.callback) {
-        const result = this.props.callback.call(this);
-        if (result && typeof result.then === 'function') {
-          result.then(resolve).catch(reject);
-        } else {
-          resolve();
-        }
-      } else {
-        resolve();
-      }
-    });
+    return callbackExec.call(this);
   }
 
   exec() {

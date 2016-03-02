@@ -1,5 +1,6 @@
 import React from 'react';
 import ParallelTask from '../src/ParallelTask';
+import { callbackExec } from './helper';
 
 export default class ParallelTestTask extends ParallelTask {
   static propTypes = {
@@ -7,12 +8,7 @@ export default class ParallelTestTask extends ParallelTask {
   };
 
   handleSomething(e) {
-    return new Promise ((resolve, reject) => {
-      if (this.props.callback) {
-        this.props.callback.call(this);
-      }
-      resolve();
-    });
+    return callbackExec.call(this);
   }
 
   exec() {

@@ -4,6 +4,7 @@ jest.dontMock('../../src/ReactPipeline');
 jest.dontMock('../../src/Task');
 jest.dontMock('../../src/Pipeline');
 jest.dontMock('../TestTask');
+jest.dontMock('../helper');
 jest.dontMock('../EmptyReactComponent');
 
 import React from 'react';

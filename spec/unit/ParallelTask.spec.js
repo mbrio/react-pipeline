@@ -5,6 +5,7 @@ jest.dontMock('../../src/Task');
 jest.dontMock('../../src/Pipeline');
 jest.dontMock('../../src/ParallelTask');
 jest.dontMock('../TestTask');
+jest.dontMock('../helper');
 jest.dontMock('../ParallelTestTask');
 jest.dontMock('../EmptyReactComponent');
 
@@ -21,12 +22,14 @@ const EmptyReactComponent = require('../EmptyReactComponent').default;
 describe('ParallelTask', () => {
   describe('start', () => {
     pit('executes own task', () => {
-      const mockCallback = jest.genMockFunction();
-      return ReactPipeline.start(
-        <Pipeline><ParallelTestTask callback={mockCallback} /></Pipeline>
-      ).then(data => {
+      const mockCallback = jest.genMockFunction().mockImplementation(() => {
+        return Promise.resolve();
+      });
+      const parallel = new ParallelTask({}, {});
+      parallel.exec = mockCallback;
+      return parallel.start().then(() => {
         expect(mockCallback.mock.calls.length).toBe(1);
-      })
+      });
     });
 
     pit('executes child tasks in parallel', () => {
