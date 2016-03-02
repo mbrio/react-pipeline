@@ -1,9 +1,9 @@
-jest.dontMock('../../src');
-jest.dontMock('../../src/PipelineElement');
-jest.dontMock('../../src/ReactPipeline');
-jest.dontMock('../../src/Task');
-jest.dontMock('../../src/Pipeline');
-jest.dontMock('../../src/ParallelTask');
+jest.dontMock('../../lib');
+jest.dontMock('../../lib/PipelineElement');
+jest.dontMock('../../lib/ReactPipeline');
+jest.dontMock('../../lib/Task');
+jest.dontMock('../../lib/Pipeline');
+jest.dontMock('../../lib/ParallelTask');
 jest.dontMock('../TestTask');
 jest.dontMock('../helper');
 jest.dontMock('../ParallelTestTask');
@@ -11,10 +11,10 @@ jest.dontMock('../EmptyReactComponent');
 
 import React from 'react';
 
-const ReactPipeline = require('../../src/ReactPipeline').default;
-const Task = require('../../src/Task').default;
-const Pipeline = require('../../src/Pipeline').default;
-const ParallelTask = require('../../src/ParallelTask').default;
+const ReactPipeline = require('../../lib/ReactPipeline').default;
+const Task = require('../../lib/Task').default;
+const Pipeline = require('../../lib/Pipeline').default;
+const ParallelTask = require('../../lib/ParallelTask').default;
 const TestTask = require('../TestTask').default;
 const ParallelTestTask = require('../ParallelTestTask').default;
 const EmptyReactComponent = require('../EmptyReactComponent').default;

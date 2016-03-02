@@ -1,5 +1,5 @@
 import React from 'react';
-import ParallelTask from '../src/ParallelTask';
+import ParallelTask from '../lib/ParallelTask';
 import { callbackExec } from './helper';
 
 export default class ParallelTestTask extends ParallelTask {

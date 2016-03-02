@@ -1,21 +1,25 @@
-jest.dontMock('../../src');
-jest.dontMock('../../src/PipelineElement');
-jest.dontMock('../../src/Task');
-jest.dontMock('../../src/Pipeline');
+jest.dontMock('../../lib');
+jest.dontMock('../../lib/PipelineElement');
+jest.dontMock('../../lib/Task');
+jest.dontMock('../../lib/Pipeline');
 jest.dontMock('../EmptyReactComponent');
 jest.dontMock('../helper');
 jest.dontMock('../TestTask');
 
 import React from 'react';
 
-const PipelineElement = require('../../src/PipelineElement').default;
-const Task = require('../../src/Task').default;
-const Pipeline = require('../../src/Pipeline').default;
+const PipelineElement = require('../../lib/PipelineElement').default;
+const Task = require('../../lib/Task').default;
+const Pipeline = require('../../lib/Pipeline').default;
 const EmptyReactComponent = require('../EmptyReactComponent').default;
 const TestTask = require('../TestTask').default;
 
 describe('PipelineElement', () => {
   describe('isValidElement', () => {
+    it('instantiates', () => {
+      expect(new PipelineElement()).toBeDefined();
+    });
+
     it('fails validation with an object that is null', () => {
       expect(PipelineElement.isValidElement()).toBe(false);
       expect(PipelineElement.isValidElement(null)).toBe(false);

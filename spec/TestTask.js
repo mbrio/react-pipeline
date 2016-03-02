@@ -1,5 +1,5 @@
 import React from 'react';
-import Task from '../src/Task';
+import Task from '../lib/Task';
 import { callbackExec } from './helper';
 
 export default class TestTask extends Task {

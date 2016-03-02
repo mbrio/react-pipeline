@@ -1,21 +1,27 @@
-jest.dontMock('../../src');
-jest.dontMock('../../src/PipelineElement');
-jest.dontMock('../../src/ReactPipeline');
-jest.dontMock('../../src/Task');
-jest.dontMock('../../src/Pipeline');
+jest.dontMock('../../lib');
+jest.dontMock('../../lib/PipelineElement');
+jest.dontMock('../../lib/ReactPipeline');
+jest.dontMock('../../lib/Task');
+jest.dontMock('../../lib/Pipeline');
 jest.dontMock('../TestTask');
 jest.dontMock('../helper');
 jest.dontMock('../EmptyReactComponent');
 
 import React from 'react';
 
-const ReactPipeline = require('../../src/ReactPipeline').default;
-const Task = require('../../src/Task').default;
-const Pipeline = require('../../src/Pipeline').default;
+const ReactPipeline = require('../../lib/ReactPipeline').default;
+const Task = require('../../lib/Task').default;
+const Pipeline = require('../../lib/Pipeline').default;
 const TestTask = require('../TestTask').default;
 const EmptyReactComponent = require('../EmptyReactComponent').default;
 
 describe('PipelineElement', () => {
+  describe('cnstr', () => {
+    it ('instantiates', () => {
+      expect(new ReactPipeline()).toBeDefined();
+    });
+  });
+
   describe('start', () => {
     it('fails with invalid element', () => {
       function failing() {
