@@ -1,2 +1,5 @@
 src/
 spec/
+lib-test/
+coverage/
+.travis.yml

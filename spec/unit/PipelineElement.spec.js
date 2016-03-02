@@ -1,16 +1,16 @@
-jest.dontMock('../../lib');
-jest.dontMock('../../lib/PipelineElement');
-jest.dontMock('../../lib/Task');
-jest.dontMock('../../lib/Pipeline');
+jest.dontMock('../../lib-test');
+jest.dontMock('../../lib-test/PipelineElement');
+jest.dontMock('../../lib-test/Task');
+jest.dontMock('../../lib-test/Pipeline');
 jest.dontMock('../EmptyReactComponent');
 jest.dontMock('../helper');
 jest.dontMock('../TestTask');
 
 import React from 'react';
 
-const PipelineElement = require('../../lib/PipelineElement').default;
-const Task = require('../../lib/Task').default;
-const Pipeline = require('../../lib/Pipeline').default;
+const PipelineElement = require('../../lib-test/PipelineElement').default;
+const Task = require('../../lib-test/Task').default;
+const Pipeline = require('../../lib-test/Pipeline').default;
 const EmptyReactComponent = require('../EmptyReactComponent').default;
 const TestTask = require('../TestTask').default;
 
