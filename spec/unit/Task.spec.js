@@ -1,16 +1,16 @@
-jest.dontMock('../../lib-test');
-jest.dontMock('../../lib-test/PipelineElement');
-jest.dontMock('../../lib-test/ReactPipeline');
-jest.dontMock('../../lib-test/Task');
-jest.dontMock('../../lib-test/Pipeline');
+jest.dontMock('../../src');
+jest.dontMock('../../src/PipelineElement');
+jest.dontMock('../../src/ReactPipeline');
+jest.dontMock('../../src/Task');
+jest.dontMock('../../src/Pipeline');
 jest.dontMock('../helper');
 jest.dontMock('../TestTask');
 
 import React from 'react';
 
-const ReactPipeline = require('../../lib-test/ReactPipeline').default;
-const Task = require('../../lib-test/Task').default;
-const Pipeline = require('../../lib-test/Pipeline').default;
+const ReactPipeline = require('../../src/ReactPipeline').default;
+const Task = require('../../src/Task').default;
+const Pipeline = require('../../src/Pipeline').default;
 const TestTask = require('../TestTask').default;
 
 describe('Task', () => {
@@ -66,7 +66,7 @@ describe('Task', () => {
       expect(mockContext.enqueue).toBeCalled();
     });
   });
-  
+
   describe('registerTask', () => {
     it('does not register start with parental task manager if invalid context', () => {
       const mockContext = { enqueue: jest.genMockFunction() };
@@ -74,7 +74,7 @@ describe('Task', () => {
 
       task.registerTask();
       expect(mockContext.enqueue).not.toBeCalled();
-      
+
       task.registerTask(null);
       expect(mockContext.enqueue).not.toBeCalled();
 
@@ -90,7 +90,7 @@ describe('Task', () => {
       expect(mockContext.enqueue).toBeCalled();
     });
   });
-  
+ 
   describe('enqueue', () => {
     it('adds a function to the task queue', () => {
       const mockCallback = jest.genMockFunction();
@@ -101,7 +101,7 @@ describe('Task', () => {
       expect(task.tasks.length).toBe(1);
     });
   });
-  
+ 
   describe('start', () => {
     describe('componentWillExec', () => {
       it('should execute if defined on component', () => {
@@ -110,11 +110,11 @@ describe('Task', () => {
 
         task.componentWillExec = mockCallback;
         task.start();
-        
+
         expect(mockCallback).toBeCalled();
       });
     });
-    
+
     describe('componentDidExec', () => {
       pit('should execute if defined on component', () => {
         const mockCallback = jest.genMockFunction();
