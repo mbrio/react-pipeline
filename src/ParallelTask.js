@@ -11,8 +11,9 @@ export default class ParallelTask extends Task {
    * @return {Promise<undefined,Error>} the promise associated with the async
    *                                    task.
    */
-  async start() {
-    await this.exec();
-    await Promise.all(this.tasks.map(task => task()));
+  start() {
+    return this.exec().then(() => {
+      return Promise.all(this.tasks.map(task => task()));
+    });
   }
 }

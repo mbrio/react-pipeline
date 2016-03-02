@@ -86,21 +86,20 @@ export default class Task extends React.Component {
    * @return {Promise<undefined,Error>} The promise associated with the async
    *                                    tasks.
    */
-  async start() {
+  start() {
     if (this.componentWillExec) {
       this.componentWillExec();
     }
 
-    await this.exec();
-
-    for(let i = 0, j = this.tasks.length; i < j; i++) {
-      const task = this.tasks[i];
-      await task();
-    }
-
-    if (this.componentDidExec) {
-      this.componentDidExec();
-    }
+    return this.exec().then(() => {
+      return this.tasks.reduce((cur, next) => {
+        return cur.then(next);
+      }, Promise.resolve()).then(() => {;
+        if (this.componentDidExec) {
+          this.componentDidExec();
+        }
+      });
+    });
   }
 
   /**
@@ -109,7 +108,8 @@ export default class Task extends React.Component {
    * @return {Promise<undefined,Error>} The promise associated with the async
    *                                    task.
    */
-  async exec() {
+  exec() {
+    return Promise.resolve();
   }
 
   /**

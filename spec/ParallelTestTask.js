@@ -1,6 +1,5 @@
 import React from 'react';
-import autobind from 'autobind-decorator';
-import { ParallelTask } from '../lib';
+import ParallelTask from '../src/ParallelTask';
 
 export default class ParallelTestTask extends ParallelTask {
   static propTypes = {
@@ -16,7 +15,7 @@ export default class ParallelTestTask extends ParallelTask {
     });
   }
 
-  async exec() {
-    await this.handleSomething();
+  exec() {
+    return this.handleSomething();
   }
 }

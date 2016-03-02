@@ -1,39 +1,35 @@
 jest.dontMock('../../lib');
-jest.dontMock('../../lib/PipelineElement');
-jest.dontMock('../../lib/ReactPipeline');
-jest.dontMock('../../lib/Task');
-jest.dontMock('../../lib/Pipeline');
+jest.dontMock('../../src/PipelineElement');
+jest.dontMock('../../src/ReactPipeline');
+jest.dontMock('../../src/Task');
+jest.dontMock('../../src/Pipeline');
 jest.dontMock('../TestTask');
 jest.dontMock('../EmptyReactComponent');
 
 import React from 'react';
 
-const ReactPipeline = require('../../lib/ReactPipeline').default;
-const Task = require('../../lib/Task').default;
-const Pipeline = require('../../lib/Pipeline').default;
+const ReactPipeline = require('../../src/ReactPipeline').default;
+const Task = require('../../src/Task').default;
+const Pipeline = require('../../src/Pipeline').default;
 const TestTask = require('../TestTask').default;
 const EmptyReactComponent = require('../EmptyReactComponent').default;
 
 describe('PipelineElement', () => {
   describe('start', () => {
-    it('fails with invalid element', (done) => {
-      ReactPipeline.start({})
-        .then(fail)
-        .catch(err => {
-          expect(err.message).toMatch(/start\(\)/);
-          expect(err.message).toMatch(/valid/);
-          done();
-        });
+    it('fails with invalid element', () => {
+      function failing() {
+        ReactPipeline.start({});
+      }
+
+      expect(failing).toThrow();
     });
 
-    it('fails with invalid child element', (done) => {
-      ReactPipeline.start(<Pipeline><EmptyReactComponent/></Pipeline>)
-        .then(fail)
-        .catch(err => {
-          expect(err.message).toMatch(/start\(\)/);
-          expect(err.message).toMatch(/valid/);
-          done();
-        });
+    it('fails with invalid child element', () => {
+      function failing() {
+        ReactPipeline.start(<Pipeline><EmptyReactComponent/></Pipeline>);
+      }
+
+      expect(failing).toThrow();
     });
 
     it('executes empty pipeline', (done) => {

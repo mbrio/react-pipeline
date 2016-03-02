@@ -1,6 +1,5 @@
 import React from 'react';
-import autobind from 'autobind-decorator';
-import { Task } from '../lib';
+import Task from '../src/Task';
 
 export default class TestTask extends Task {
   static propTypes = {
@@ -22,7 +21,7 @@ export default class TestTask extends Task {
     });
   }
 
-  async exec() {
-    await this.handleSomething();
+  exec() {
+    return this.handleSomething();
   }
 }

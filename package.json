@@ -34,6 +34,14 @@
   },
   "jest": {
     "collectCoverage": true,
+    "collectCoverageOnlyFrom": {
+      "<rootDir>/src/ParallelTask.js": true,
+      "<rootDir>/src/Pipeline.js": true,
+      "<rootDir>/src/PipelineElement.js": true,
+      "<rootDir>/src/ReactPipeline.js": true,
+      "<rootDir>/src/Task.js": true,
+      "<rootDir>/src/index.js": true
+    },
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
     "testRunner": "<rootDir>/node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js",
     "testFileExtensions": [

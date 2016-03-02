@@ -1,15 +1,15 @@
 jest.dontMock('../../lib');
-jest.dontMock('../../lib/PipelineElement');
-jest.dontMock('../../lib/Task');
-jest.dontMock('../../lib/Pipeline');
+jest.dontMock('../../src/PipelineElement');
+jest.dontMock('../../src/Task');
+jest.dontMock('../../src/Pipeline');
 jest.dontMock('../EmptyReactComponent');
 jest.dontMock('../TestTask');
 
 import React from 'react';
 
-const PipelineElement = require('../../lib/PipelineElement').default;
-const Task = require('../../lib/Task').default;
-const Pipeline = require('../../lib/Pipeline').default;
+const PipelineElement = require('../../src/PipelineElement').default;
+const Task = require('../../src/Task').default;
+const Pipeline = require('../../src/Pipeline').default;
 const EmptyReactComponent = require('../EmptyReactComponent').default;
 const TestTask = require('../TestTask').default;
 
@@ -26,10 +26,27 @@ describe('PipelineElement', () => {
         .toBe(false);
     });
 
+    it('fails validation with a child object that is not a pipeline element', () => {
+      expect(PipelineElement.isValidElement(<Pipeline><EmptyReactComponent /></Pipeline>))
+        .toBe(false);
+      expect(PipelineElement.isValidElement(
+        <Pipeline><EmptyReactComponent /><EmptyReactComponent /></Pipeline>
+      )).toBe(false);
+    });
+
     it('succeeds validation with an object that is a pipeline element', () => {
       expect(PipelineElement.isValidElement(<Pipeline />)).toBe(true);
       expect(PipelineElement.isValidElement(<Task />)).toBe(true);
       expect(PipelineElement.isValidElement(<TestTask />)).toBe(true);
+    });
+
+    it('succeeds validation with a child object that is a pipeline element', () => {
+      expect(PipelineElement.isValidElement(
+        <Pipeline><Task /></Pipeline>
+      )).toBe(true);
+      expect(PipelineElement.isValidElement(
+        <Pipeline><Task /><Task /></Pipeline>
+      )).toBe(true);
     });
   });
 });

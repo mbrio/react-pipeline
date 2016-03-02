@@ -17,6 +17,9 @@ export default class PipelineElement {
    */
   static isValidElement(element) {
     if (!ReactElement.isValidElement(element)) { return false; }
+    if (!(element.type.prototype instanceof Task || element.type === Task)) {
+      return false;
+    }
 
     let hasError = false;
     const childrenCount = React.Children.count(element.props.children);
@@ -31,8 +34,6 @@ export default class PipelineElement {
       });
     }
 
-    return !hasError && (
-      element.type.prototype instanceof Task || element.type === Task
-    );
+    return !hasError;
   }
 }

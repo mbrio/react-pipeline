@@ -27,7 +27,7 @@ export default class ReactPipeline {
    * @return {Promise<string, Error>} the Promise associated with the Task tree
    *                                  execution, resolves to the rendered HTML
    */
-  static async start(element) {
+  static start(element) {
     invariant(
       PipelineElement.isValidElement(element),
       'start(): You must pass a valid PipelineElement.'
