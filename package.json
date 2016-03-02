@@ -53,11 +53,7 @@
       "<rootDir>/node_modules/fbjs",
       "<rootDir>/node_modules/core-js"
     ],
-    "verbose": true,
-    "testPathDirs": [
-      "lib",
-      "spec"
-    ]
+    "verbose": true
   },
   "license": "BSD-3-Clause",
   "repository": {
