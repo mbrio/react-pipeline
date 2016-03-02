@@ -66,7 +66,7 @@ describe('Task', () => {
   describe('registerTask', () => {
     it('does not register start with parental task manager if invalid context', () => {
       const mockContext = { enqueue: jest.genMockFunction() };
-      const task = new TestTask();
+      const task = new TestTask({}, {});
 
       task.registerTask();
       expect(mockContext.enqueue).not.toBeCalled();
@@ -80,7 +80,7 @@ describe('Task', () => {
 
     it('registers start with parental task manager if valid context', () => {
       const mockContext = { enqueue: jest.genMockFunction() };
-      const task = new TestTask();
+      const task = new TestTask({}, {});
 
       task.registerTask({ tasks: mockContext });
       expect(mockContext.enqueue).toBeCalled();
@@ -90,7 +90,7 @@ describe('Task', () => {
   describe('enqueue', () => {
     it('adds a function to the task queue', () => {
       const mockCallback = jest.genMockFunction();
-      const task = new TestTask();
+      const task = new TestTask({}, {});
 
       expect(task.tasks.length).toBe(0);
       task.enqueue(mockCallback);
@@ -102,7 +102,7 @@ describe('Task', () => {
     describe('componentWillExec', () => {
       it('should execute if defined on component', () => {
         const mockCallback = jest.genMockFunction();
-        const task = new TestTask();
+        const task = new TestTask({}, {});
 
         task.componentWillExec = mockCallback;
         task.start();
@@ -111,10 +111,10 @@ describe('Task', () => {
       });
     });
     
-    describe('componentDidExec', (done) => {
-      it('should execute if defined on component', () => {
+    describe('componentDidExec', () => {
+      it('should execute if defined on component', (done) => {
         const mockCallback = jest.genMockFunction();
-        const task = new TestTask();
+        const task = new TestTask({}, {});
 
         task.componentDidExec = mockCallback;
         task.start().then(() => {
@@ -122,23 +122,36 @@ describe('Task', () => {
           done();
         });
       });
+
+      it('should execute if defined on component', (done) => {
+        const mockCallback = jest.genMockFunction();
+        const task = new TestTask({}, {});
+
+        task.enqueue(mockCallback);
+        task.componentDidExec = mockCallback;
+        task.start().then(() => {
+          expect(mockCallback.mock.calls.length).toBe(2);
+          done();
+        });
+      });
     });
 
-    it('should execute exec', () => {
+    it('should execute exec', (done) => {
       const mockCallback = jest.genMockFunction().mockImplementation(() => {
         return Promise.resolve();
       });
-      const task = new TestTask();
+      const task = new TestTask({}, {});
 
       task.exec = mockCallback;
-      task.start();
-      
-      expect(mockCallback).toBeCalled();
+      task.start().then(() => {
+        expect(mockCallback).toBeCalled();
+        done();
+      });
     });
 
     it('should execute queued tasks', () => {
       const mockCallback = jest.genMockFunction();
-      const task = new TestTask();
+      const task = new TestTask({}, {});
 
       task.enqueue(mockCallback);
       task.start().then(() => {

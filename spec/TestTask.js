@@ -6,7 +6,7 @@ export default class TestTask extends Task {
     callback: React.PropTypes.func
   };
 
-  handleSomething(e) {
+  handleSomething() {
     return new Promise ((resolve, reject) => {
       if (this.props.callback) {
         const result = this.props.callback.call(this);

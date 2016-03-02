@@ -92,13 +92,19 @@ export default class Task extends React.Component {
     }
 
     return this.exec().then(() => {
-      return this.tasks.reduce((cur, next) => {
-        return cur.then(next);
-      }, Promise.resolve()).then(() => {;
+      if (this.tasks.length > 0) {
+        return this.tasks.reduce((cur, next) => {
+          return cur.then(next);
+        }, Promise.resolve()).then(() => {;
+          if (this.componentDidExec) {
+            this.componentDidExec();
+          }
+        });
+      } else {
         if (this.componentDidExec) {
           this.componentDidExec();
         }
-      });
+      }
     });
   }
 
