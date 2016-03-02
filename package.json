@@ -8,7 +8,7 @@
     "prebuildtest": "npm run lint",
     "pretest": "npm run buildtest",
     "test": "jest",
-    "buildtest": "babel --plugins=transform-runtime -d lib-test/ src/",
+    "buildtest": "babel --auxiliary-comment-before=\"istanbul ignore next\" --plugins=transform-runtime -d lib-test/ src/",
     "build": "babel -d lib/ src/",
     "prepublish": "npm run test && npm run build",
     "clean": "rimraf lib coverage lib-test",
@@ -27,8 +27,7 @@
       "es2015",
       "react",
       "stage-0"
-    ],
-    "auxiliaryCommentBefore": "istanbul ignore next"
+    ]
   },
   "eslintConfig": {
     "parser": "babel-eslint",
