@@ -10,6 +10,11 @@ A task execution pipeline described in JSX.
 $ npm install --save react react-pipeline
 ```
 
+## Example
+
+An example application can be found at
+[react-pipeline-example](https://github.com/mbrio/react-pipeline-example).
+
 ## Alpha Warning
 
 The current implementation works well and is currently feature complete for my
