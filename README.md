@@ -114,6 +114,17 @@ The outcome of those tasks are as follows:
   - Upload the results of the machine learning to a location
 - Email the admin that the pipeline has completed
 
+## Lifecycle Methods
+
+Currently all lifecycle methods that are supported by `ReactDOMServer` are
+supported in *react-pipeline*, this includes `getDefaultProps` and
+`componentWillMount`. Along with these lifecycle methods two additional
+lifecycle methods have been added `componentWillExec` and `componentDidExec`.
+`componentWillExec` gets called for each `Task` instance before it's `exec`
+method is called or any of it's child tasks are started. `componentDidExec` gets
+called for each `Task` instance after it's `exec` method is called and after all
+of it's child tasks have completed.
+
 ## Rationale
 
 For the past four years I have worked primarily on big data projects utilizing
