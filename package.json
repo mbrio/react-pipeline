@@ -1,7 +1,7 @@
 {
   "name": "react-pipeline",
   "version": "0.1.0",
-  "description": "A pipeline for executing tasks described in React & JSX",
+  "description": "A task execution pipeline described in JSX",
   "main": "lib/index.js",
   "scripts": {
     "prebuild": "npm run lint",
