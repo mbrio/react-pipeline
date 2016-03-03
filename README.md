@@ -7,7 +7,7 @@ A task execution pipeline described in JSX.
 ## Install
 
 ```
-$ npm install --save react-pipeline
+$ npm install --save react react-pipeline
 ```
 
 ## Alpha Warning
