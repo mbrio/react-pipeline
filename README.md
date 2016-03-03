@@ -2,6 +2,8 @@
 
 A task execution pipeline described in JSX.
 
+[![Build Status](https://api.travis-ci.org/mbrio/react-pipeline.svg?branch=master)](https://travis-ci.org/mbrio/react-pipeline)
+
 ## Alpha Warning
 
 The current implementation works well and is currently feature complete for my
