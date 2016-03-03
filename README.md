@@ -6,17 +6,24 @@ A task execution pipeline described in JSX.
 
 The current implementation works well and is currently feature complete for my
 plans for version 1. I wanted the API to be incredibly simple, utilizing as few
-components as I could in order to meet my goals. The warning here is in the
-implementation. I am not 100% happy with the implementation, to me it feels a
-bit hacky utilizing `context.tasks` to enqueu tasks. The `ReactPipeline` class
-utilizes code from `ReactDomServer.render` to setup and execute tasks. I tried
-to mirror how and when the `Task.start` method was executed in comparison to
-`componentWillMount`.
+components as I could in order to meet my goals. My warning the internal
+implementation will change. I am not 100% happy with my current implementation,
+and you should not rely on `context.tasks` to be available in future releases.
+
+My current implementation makes available `context.tasks` which is a pointer to
+the parent `Task` instance, when a `Task` is instantiated it enqueue's it's
+`start` method with it's parent `Task` through this context variable. This is
+not utilizing the internals of React the way it should, and feels like a hack to
+me.
 
 What I plan on changing is depricating `context.tasks`, `Task.registerTask`, and
-`Task.enqueue`; and replacing them with React enqueued callbacks. This will be a
-big restructuring of the internals but will mirror how React handles calling
-lifecycle methods such as `componentDidMount`.
+`Task.enqueue`; and replacing them by executing the `start` method in the same
+way other lifecycle calls are made.
+
+The `ReactPipeline` class utilizes code from `ReactDOMServer.renderToString` to
+setup and execute tasks. I tried to mirror how and when the `Task.start` method
+was executed in comparison to `componentWillMount`. This works well on the root
+component, but not on it's children.
 
 ## Roadmap
 
@@ -80,7 +87,7 @@ ReactPipeline.start(
 );
 ```
 
-In the example above the the pipeline describes a series of (theoretical) tasks.
+In the example above the pipeline describes a series of (theoretical) tasks.
 The outcome of those tasks are as follows:
 
 - Create an AWS server and pass it's server context onto it's children (after v2
