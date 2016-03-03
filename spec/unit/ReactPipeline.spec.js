@@ -6,6 +6,7 @@ jest.dontMock('../../src/Pipeline');
 jest.dontMock('../TestTask');
 jest.dontMock('../helper');
 jest.dontMock('../EmptyReactComponent');
+jest.dontMock('../../package.json');
 
 import React from 'react';
 
@@ -14,11 +15,19 @@ const Task = require('../../src/Task').default;
 const Pipeline = require('../../src/Pipeline').default;
 const TestTask = require('../TestTask').default;
 const EmptyReactComponent = require('../EmptyReactComponent').default;
+const pkg = require('../../package.json');
 
 describe('PipelineElement', () => {
   describe('cnstr', () => {
     it ('instantiates', () => {
       expect(new ReactPipeline()).toBeDefined();
+    });
+  });
+
+  describe('version', () => {
+    it ('should match the version in package.json', () => {
+      expect(ReactPipeline.version).toBeDefined();
+      expect(ReactPipeline.version).toBe(pkg.version);
     });
   });
 

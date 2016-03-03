@@ -7,16 +7,17 @@ import Task from './Task';
  * the ReactElement class.
  * @class
  */
-export default class PipelineElement {
+export default class PipelineElement extends ReactElement {
   /**
    * Determines whether the element is a valid pipeline element. In this case
    * it means that it is a valid ReactElement and it inherits from Task, and
    * that all of it's children are too.
-   * @param {ReactElement} element
-   * @return {boolean} true if the element is valid otherwise false
+   * @param {?object} element
+   * @return {boolean} True if the element is valid otherwise false
+   * @final
    */
   static isValidElement(element) {
-    if (!ReactElement.isValidElement(element)) { return false; }
+    if (!super.isValidElement(element)) { return false; }
     if (!(element.type.prototype instanceof Task || element.type === Task)) {
       return false;
     }

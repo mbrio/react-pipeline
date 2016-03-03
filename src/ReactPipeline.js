@@ -7,16 +7,30 @@ import ReactMarkupChecksum from 'react/lib/ReactMarkupChecksum';
 import ReactServerBatchingStrategy from 'react/lib/ReactServerBatchingStrategy';
 import ReactServerRenderingTransaction from 'react/lib/ReactServerRenderingTransaction';
 import ReactUpdates from 'react/lib/ReactUpdates';
+import ReactInjection from 'react/lib/ReactInjection';
+import ReactDOMComponent from 'react/lib/ReactDOMComponent';
 
 import emptyObject from 'fbjs/lib/emptyObject';
 import instantiateReactComponent from 'react/lib/instantiateReactComponent';
 import invariant from 'fbjs/lib/invariant';
+
+import pkg from '../package.json';
+import ReactPipelineInjection from './ReactPipelineInjection';
+
+ReactPipelineInjection.inject();
 
 /**
  * Class for executing a React pipeline.
  * @class
  */
 export default class ReactPipeline {
+  /**
+   * The version of ReactPipeline
+   */
+  static version = pkg.version;
+
+  static unstable_batchedUpdates = ReactUpdates.batchedUpdates;
+
   /**
    * Runs all of tasks within the pipeline. This is identical to the server
    * rendering that ships with React, with the addition of the start function.
