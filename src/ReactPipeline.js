@@ -9,15 +9,15 @@ import ReactPipelineRenderingTransaction from './ReactPipelineRenderingTransacti
 import ReactUpdates from 'react/lib/ReactUpdates';
 import ReactInjection from 'react/lib/ReactInjection';
 import ReactDOMComponent from 'react/lib/ReactDOMComponent';
-import ReactDefaultInjection from 'react/lib/ReactDefaultInjection';
 
 import emptyObject from 'fbjs/lib/emptyObject';
 import invariant from 'fbjs/lib/invariant';
 
 import pkg from '../package.json';
 import instantiatePipelineComponent from './instantiatePipelineComponent';
+import ReactPipelineInjection from './ReactPipelineInjection';
 
-ReactDefaultInjection.inject();
+ReactPipelineInjection.inject();
 
 /**
  * Class for executing a React pipeline.

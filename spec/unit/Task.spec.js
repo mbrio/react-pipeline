@@ -98,41 +98,6 @@ describe('Task', () => {
   });
  
   describe('start', () => {
-    describe('componentWillExec', () => {
-      it('should execute if defined on component', () => {
-        const mockCallback = jest.genMockFunction();
-        const task = new TestTask({}, {});
-
-        task.componentWillExec = mockCallback;
-        task.start();
-
-        expect(mockCallback).toBeCalled();
-      });
-    });
-
-    describe('componentDidExec', () => {
-      pit('should execute if defined on component', () => {
-        const mockCallback = jest.genMockFunction();
-        const task = new TestTask({}, {});
-
-        task.componentDidExec = mockCallback;
-        return task.start().then(() => {
-          expect(mockCallback).toBeCalled();
-        });
-      });
-
-      pit('should execute if defined on component', () => {
-        const mockCallback = jest.genMockFunction();
-        const task = new TestTask({}, {});
-
-        task.enqueue(mockCallback);
-        task.componentDidExec = mockCallback;
-        return task.start().then(() => {
-          expect(mockCallback.mock.calls.length).toBe(2);
-        });
-      });
-    });
-
     pit('should execute exec', () => {
       const mockCallback = jest.genMockFunction().mockImplementation(() => {
         return Promise.resolve();
