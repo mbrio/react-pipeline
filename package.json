@@ -37,7 +37,6 @@
   "jest": {
     "collectCoverage": true,
     "collectCoverageOnlyFrom": {
-      "<rootDir>/src/PipelineElement.js": true,
       "<rootDir>/src/ReactPipeline.js": true,
       "<rootDir>/src/ReactPipelineComponent.js": true,
       "<rootDir>/src/ReactPipelineRenderingTransaction.js": true,

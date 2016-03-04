@@ -35,12 +35,17 @@ describe('PipelineElement', () => {
       expect(failing).toThrow();
     });
 
-    it('fails with invalid child element', () => {
-      function failing() {
-        ReactPipeline.start(<Task><EmptyReactComponent/></Task>);
-      }
-
-      expect(failing).toThrow();
+    pit('executes child tasks when parental element has no exec', () => {
+      const mockCallback = jest.genMockFunction();
+      return ReactPipeline.start(
+        <Task>
+          <EmptyReactComponent>
+            <TestTask callback={mockCallback} />
+          </EmptyReactComponent>
+        </Task>
+      ).then(data => {
+        expect(mockCallback).toBeCalled();
+      });
     });
 
     pit('executes empty pipeline', () => {

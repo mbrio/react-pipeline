@@ -1,4 +1,3 @@
-import PipelineElement from './PipelineElement';
 import RenderDOMServer from 'react-dom/server';
 import ReactDefaultBatchingStrategy from 'react/lib/ReactDefaultBatchingStrategy';
 import ReactElement from 'react/lib/ReactElement';
@@ -37,10 +36,7 @@ export default class ReactPipeline {
    *                                  execution, resolves to the rendered HTML
    */
   static start(element) {
-    invariant(
-      PipelineElement.isValidElement(element),
-      'start(): You must pass a valid PipelineElement.'
-    );
+    !ReactElement.isValidElement(element) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'start(): You must pass a valid ReactElement.') : invariant(false) : undefined;
 
     let transaction;
     try {

@@ -27,7 +27,9 @@ const ReactPipelineComponentMixin = {
       }
     }
 
-    return inst.exec().then(() => {
+    const exec = inst.exec ? inst.exec.bind(inst) : () => Promise.resolve();
+
+    return exec().then(() => {
       const children = [];
       for (let key in this._renderedComponent._renderedChildren) {
         const child = this._renderedComponent._renderedChildren[key];
