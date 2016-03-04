@@ -20,6 +20,10 @@ const ReactPipelineChildReconciler = assign({}, ReactChildReconciler, {
    * Generates a "mount image" for each of the supplied children. In the case
    * of `ReactDOMComponent`, a mount image is a string of markup.
    *
+   * This is identical to the same method found within
+   * react/lib/ReactChildReconciler, with the exception we are using our own
+   * custom instantiatePipelineComponent method.
+   *
    * @param {?object} nestedChildNodes Nested child maps.
    * @return {?object} A set of child instances.
    * @internal

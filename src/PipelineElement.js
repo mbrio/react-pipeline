@@ -3,11 +3,10 @@ import ReactElement from 'react/lib/ReactElement';
 import Task from './Task';
 
 /**
- * Validates a pipeline element. Future plans are to use this class to replace
- * the ReactElement class.
+ * Validates a pipeline element.
  * @class
  */
-export default class PipelineElement extends ReactElement {
+export default class PipelineElement {
   /**
    * Determines whether the element is a valid pipeline element. In this case
    * it means that it is a valid ReactElement and it inherits from Task, and
@@ -17,7 +16,7 @@ export default class PipelineElement extends ReactElement {
    * @final
    */
   static isValidElement(element) {
-    if (!super.isValidElement(element)) { return false; }
+    if (!ReactElement.isValidElement(element)) { return false; }
     if (!(element.type.prototype instanceof Task || element.type === Task)) {
       return false;
     }

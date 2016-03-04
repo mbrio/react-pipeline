@@ -4,6 +4,11 @@ import assign from 'react/lib/Object.assign';
 import ReactPipelineChildReconciler from './ReactPipelineChildReconciler';
 
 export default class ReactPipelineDOMComponent extends ReactDOMComponent {
+  /**
+   * This is a duplicate of the same method found with
+   * react/lib/ReactMultiChild, the only difference is we are using the
+   * ReactPipelineChildReconciler for instantiation.
+   */
   _reconcilerInstantiateChildren(nestedChildren, transaction, context) {
     if (process.env.NODE_ENV !== 'production') {
       if (this._currentElement) { try {

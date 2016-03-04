@@ -5,7 +5,17 @@ import traverseAllChildren from 'react/lib/traverseAllChildren';
 const ReactCompositeComponentMixin = ReactCompositeComponent.Mixin;
 
 const ReactPipelineComponentMixin = {
-  start: function (transaction, context) {
+  /**
+   * Starts running the tasks for the component. it firsts runs it's own exec
+   * method, when the method's Promise has completed it runs each of it's
+   * children's start methods. If the component has a function componentWillExec
+   * defined it will be called before it's own exec method is called. If the
+   * component has a function componentDidExec defined it will be called after
+   * it's own exec method is called and all of it's children's start Promises
+   * are resolved.
+   * @return Promise
+   */
+  start: function () {
     const inst = this._instance;
 
     if (inst.componentWillExec) {
