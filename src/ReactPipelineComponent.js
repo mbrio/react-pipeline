@@ -1,8 +1,9 @@
 import react from 'react';
-import ReactDOMComponent from 'react/lib/ReactDOMComponent';
+import ReactCompositeComponent from 'react/lib/ReactCompositeComponent';
+import assign from 'react/lib/Object.assign';
 
-export default class ReactPipelineComponent extends ReactDOMComponent {
-  constructor(tag) {
-    super(tag);
-  }
-}
+const ReactPipelineComponentMixin = assign({}, ReactCompositeComponent.Mixin);
+
+export default {
+  Mixin: ReactPipelineComponentMixin
+};

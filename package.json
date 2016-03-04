@@ -42,7 +42,6 @@
       "<rootDir>/src/PipelineElement.js": true,
       "<rootDir>/src/ReactPipeline.js": true,
       "<rootDir>/src/ReactPipelineComponent.js": true,
-      "<rootDir>/src/ReactPipelineInjection.js": true,
       "<rootDir>/src/ReactPipelineRenderingTransaction.js": true,
       "<rootDir>/src/Task.js": true,
       "<rootDir>/src/index.js": true
