@@ -6,7 +6,6 @@ import React from 'react';
 
 const PipelineElement = require('../../src/PipelineElement').default;
 const Task = require('../../src/Task').default;
-const Pipeline = require('../../src/Pipeline').default;
 const EmptyReactComponent = require('../EmptyReactComponent').default;
 const TestTask = require('../TestTask').default;
 
@@ -28,25 +27,24 @@ describe('PipelineElement', () => {
     });
 
     it('fails validation with a child object that is not a pipeline element', () => {
-      expect(PipelineElement.isValidElement(<Pipeline><EmptyReactComponent /></Pipeline>))
+      expect(PipelineElement.isValidElement(<Task><EmptyReactComponent /></Task>))
         .toBe(false);
       expect(PipelineElement.isValidElement(
-        <Pipeline><EmptyReactComponent /><EmptyReactComponent /></Pipeline>
+        <Task><EmptyReactComponent /><EmptyReactComponent /></Task>
       )).toBe(false);
     });
 
     it('succeeds validation with an object that is a pipeline element', () => {
-      expect(PipelineElement.isValidElement(<Pipeline />)).toBe(true);
       expect(PipelineElement.isValidElement(<Task />)).toBe(true);
       expect(PipelineElement.isValidElement(<TestTask />)).toBe(true);
     });
 
     it('succeeds validation with a child object that is a pipeline element', () => {
       expect(PipelineElement.isValidElement(
-        <Pipeline><Task /></Pipeline>
+        <Task><Task /></Task>
       )).toBe(true);
       expect(PipelineElement.isValidElement(
-        <Pipeline><Task /><Task /></Pipeline>
+        <Task><Task /><Task /></Task>
       )).toBe(true);
     });
   });

@@ -2,7 +2,6 @@ import React from 'react';
 
 const ReactPipelineComponent = require('../../src/ReactPipelineComponent').default;
 const ReactPipeline = require('../../src/ReactPipeline').default;
-const Pipeline = require('../../src/Pipeline').default;
 const Task = require('../../src/Task').default;
 
 describe('ReactPipelineComponent', () => {
@@ -30,12 +29,12 @@ describe('ReactPipelineComponent', () => {
       }
 
       return ReactPipeline.start(
-        <Pipeline>
+        <Task>
           <InnerTestTask />
           <InnerTestTask>
             <InnerTestTask />
           </InnerTestTask>
-        </Pipeline>
+        </Task>
       )
         .then(content => {
           expect(content).toBe('<div><div></div><div><div></div></div></div>');
@@ -56,7 +55,7 @@ describe('ReactPipelineComponent', () => {
         }
       }
 
-      return ReactPipeline.start(<Pipeline><InnerTestTask /></Pipeline>)
+      return ReactPipeline.start(<Task><InnerTestTask /></Task>)
         .then(content => {
           expect(content).toBe('<div><div></div></div>');
           expect(mockCallback).toBeCalled();
@@ -74,7 +73,7 @@ describe('ReactPipelineComponent', () => {
         }
       }
 
-      return ReactPipeline.start(<Pipeline><InnerTestTask /></Pipeline>)
+      return ReactPipeline.start(<Task><InnerTestTask /></Task>)
         .then(content => {
           expect(content).toBe('<div><div></div></div>');
           expect(mockCallback).toBeCalled();

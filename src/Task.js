@@ -17,14 +17,6 @@ import React from 'react';
  */
 export default class Task extends React.Component {
   /**
-   * Tasks require a pipeline context which corresponds to the root Pipeline
-   * element; and they require a tasks context to register their run command.
-   */
-  static contextTypes = {
-    pipeline: React.PropTypes.object.isRequired
-  };
-
-  /**
    * You can make all tasks run in parallel if the property parallelTasks is
    * set to true.
    */

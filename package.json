@@ -37,8 +37,6 @@
   "jest": {
     "collectCoverage": true,
     "collectCoverageOnlyFrom": {
-      "<rootDir>/src/ParallelTask.js": true,
-      "<rootDir>/src/Pipeline.js": true,
       "<rootDir>/src/PipelineElement.js": true,
       "<rootDir>/src/ReactPipeline.js": true,
       "<rootDir>/src/ReactPipelineComponent.js": true,

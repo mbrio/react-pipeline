@@ -7,7 +7,6 @@ import React from 'react';
 
 const ReactPipeline = require('../../src/ReactPipeline').default;
 const Task = require('../../src/Task').default;
-const Pipeline = require('../../src/Pipeline').default;
 const TestTask = require('../TestTask').default;
 const EmptyReactComponent = require('../EmptyReactComponent').default;
 const pkg = require('../../package.json');
@@ -38,14 +37,14 @@ describe('PipelineElement', () => {
 
     it('fails with invalid child element', () => {
       function failing() {
-        ReactPipeline.start(<Pipeline><EmptyReactComponent/></Pipeline>);
+        ReactPipeline.start(<Task><EmptyReactComponent/></Task>);
       }
 
       expect(failing).toThrow();
     });
 
     pit('executes empty pipeline', () => {
-      return ReactPipeline.start(<Pipeline/>)
+      return ReactPipeline.start(<Task/>)
         .then(data => {
           expect(data).toBe('<div></div>');
         });
@@ -54,7 +53,7 @@ describe('PipelineElement', () => {
     pit('executes child tasks', () => {
       const mockCallback = jest.genMockFunction();
       return ReactPipeline.start(
-        <Pipeline><TestTask callback={mockCallback} /></Pipeline>
+        <Task><TestTask callback={mockCallback} /></Task>
       ).then(data => {
         expect(mockCallback.mock.calls.length).toBe(1);
       });
@@ -63,7 +62,7 @@ describe('PipelineElement', () => {
     pit('executes multiple levels of child tasks', () => {
       const mockCallback = jest.genMockFunction();
       return ReactPipeline.start(
-        <Pipeline><Task><TestTask callback={mockCallback} /></Task></Pipeline>
+        <Task><Task><TestTask callback={mockCallback} /></Task></Task>
       ).then(data => {
         expect(mockCallback.mock.calls.length).toBe(1);
       });
