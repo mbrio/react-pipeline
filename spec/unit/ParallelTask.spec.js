@@ -15,41 +15,6 @@ const EmptyReactComponent = require('../EmptyReactComponent').default;
 
 describe('ParallelTask', () => {
   describe('start', () => {
-    describe('componentWillExec', () => {
-      it('should execute if defined on component', () => {
-        const mockCallback = jest.genMockFunction();
-        const task = new ParallelTestTask({}, {});
-
-        task.componentWillExec = mockCallback;
-        task.start();
-
-        expect(mockCallback).toBeCalled();
-      });
-    });
-
-    describe('componentDidExec', () => {
-      pit('should execute if defined on component', () => {
-        const mockCallback = jest.genMockFunction();
-        const task = new ParallelTestTask({}, {});
-
-        task.componentDidExec = mockCallback;
-        return task.start().then(() => {
-          expect(mockCallback).toBeCalled();
-        });
-      });
-
-      pit('should execute if defined on component', () => {
-        const mockCallback = jest.genMockFunction();
-        const task = new ParallelTestTask({}, {});
-
-        task.enqueue(mockCallback);
-        task.componentDidExec = mockCallback;
-        return task.start().then(() => {
-          expect(mockCallback.mock.calls.length).toBe(2);
-        });
-      });
-    });
-
     pit('executes own task', () => {
       const mockCallback = jest.genMockFunction().mockImplementation(() => {
         return Promise.resolve();

@@ -12,21 +12,9 @@ export default class ParallelTask extends Task {
    *                                    task.
    */
   start() {
-    if (this.componentWillExec) {
-      this.componentWillExec();
-    }
-
     return this.exec().then(() => {
       if (this.tasks.length > 0) {
-        return Promise.all(this.tasks.map(task => task())).then(() => {
-          if (this.componentDidExec) {
-            this.componentDidExec();
-          }
-        });
-      } else {
-        if (this.componentDidExec) {
-          this.componentDidExec();
-        }
+        return Promise.all(this.tasks.map(task => task()))
       }
     });
   }
