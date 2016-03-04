@@ -1,7 +1,3 @@
-jest.dontMock('../../src');
-jest.dontMock('../../src/ReactPipelineInjection');
-jest.dontMock('../../src/ReactPipelineComponent');
-
 import React from 'react';
 import ReactNativeComponent from 'react/lib/ReactNativeComponent';
 

@@ -1,9 +1,3 @@
-jest.dontMock('../../src');
-jest.dontMock('../../src/PipelineElement');
-jest.dontMock('../../src/ReactPipeline');
-jest.dontMock('../../src/Task');
-jest.dontMock('../../src/Pipeline');
-jest.dontMock('../../src/ParallelTask');
 jest.dontMock('../TestTask');
 jest.dontMock('../helper');
 jest.dontMock('../ParallelTestTask');

@@ -1,8 +1,3 @@
-jest.dontMock('../../src');
-jest.dontMock('../../src/PipelineElement');
-jest.dontMock('../../src/ReactPipeline');
-jest.dontMock('../../src/Task');
-jest.dontMock('../../src/Pipeline');
 jest.dontMock('../helper');
 jest.dontMock('../TestTask');
 
@@ -160,7 +155,7 @@ describe('Task', () => {
       });
     });
   });
-
+  
   describe('render', () => {
     pit('should render basic content', () => {
       return ReactPipeline.start(<Pipeline><Task /></Pipeline>)

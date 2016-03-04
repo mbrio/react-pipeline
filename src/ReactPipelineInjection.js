@@ -6,6 +6,7 @@ import ReactPipelineComponent from './ReactPipelineComponent';
 export default class ReactPipelineInjection {
   static inject() {
     ReactDefaultInjection.inject();
+
     ReactInjection.NativeComponent
       .injectGenericComponentClass(ReactPipelineComponent);
   }

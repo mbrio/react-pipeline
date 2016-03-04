@@ -43,6 +43,7 @@
       "<rootDir>/src/ReactPipeline.js": true,
       "<rootDir>/src/ReactPipelineComponent.js": true,
       "<rootDir>/src/ReactPipelineInjection.js": true,
+      "<rootDir>/src/ReactPipelineRenderingTransaction.js": true,
       "<rootDir>/src/Task.js": true,
       "<rootDir>/src/index.js": true
     },
@@ -66,7 +67,8 @@
       "<rootDir>/node_modules/fbjs",
       "<rootDir>/node_modules/babel-polyfill",
       "<rootDir>/node_modules/babel-runtime",
-      "<rootDir>/node_modules/core-js"
+      "<rootDir>/node_modules/core-js",
+      "<rootDir>/src"
     ],
     "verbose": true
   },

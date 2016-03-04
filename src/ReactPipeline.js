@@ -5,7 +5,7 @@ import ReactElement from 'react/lib/ReactElement';
 import ReactInstanceHandles from 'react/lib/ReactInstanceHandles';
 import ReactMarkupChecksum from 'react/lib/ReactMarkupChecksum';
 import ReactServerBatchingStrategy from 'react/lib/ReactServerBatchingStrategy';
-import ReactServerRenderingTransaction from 'react/lib/ReactServerRenderingTransaction';
+import ReactPipelineRenderingTransaction from './ReactPipelineRenderingTransaction';
 import ReactUpdates from 'react/lib/ReactUpdates';
 import ReactInjection from 'react/lib/ReactInjection';
 import ReactDOMComponent from 'react/lib/ReactDOMComponent';
@@ -53,7 +53,7 @@ export default class ReactPipeline {
         .injectBatchingStrategy(ReactServerBatchingStrategy);
 
       const id = ReactInstanceHandles.createReactRootID();
-      transaction = ReactServerRenderingTransaction.getPooled(true);
+      transaction = ReactPipelineRenderingTransaction.getPooled(true);
 
       return new Promise((resolve, reject) => {
         transaction.perform(function () {
@@ -64,12 +64,15 @@ export default class ReactPipeline {
           const inst = componentInstance._instance;
           // Execute the tasks
           inst.start()
-            .then(() => resolve(mountedComponent))
-            .catch(reject);
+          .then(() => {
+            componentInstance.unmountComponent();
+            return resolve(mountedComponent);
+          })
+          .catch(reject);
         }, null);
       });
     } finally {
-      ReactServerRenderingTransaction.release(transaction);
+      ReactPipelineRenderingTransaction.release(transaction);
       // Revert to the DOM batching strategy since these two renderers
       // currently share these stateful modules.
       ReactUpdates.injection
