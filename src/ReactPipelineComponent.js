@@ -1,13 +1,13 @@
 import ReactCompositeComponent from 'react/lib/ReactCompositeComponent';
 import assign from 'react/lib/Object.assign';
+import traverseAllChildren from 'react/lib/traverseAllChildren';
 
 const ReactCompositeComponentMixin = ReactCompositeComponent.Mixin;
 
 const ReactPipelineComponentMixin = {
-  mountComponent: function (rootID, transaction, context) {
-    const markup = ReactCompositeComponentMixin.mountComponent.call(this, rootID, transaction, context);
+  start: function (transaction, context) {
     const inst = this._instance;
-    
+
     if (inst.componentWillExec) {
       inst.componentWillExec();
       // When mounting, calls to `setState` by `componentWillExec` will set
@@ -17,11 +17,30 @@ const ReactPipelineComponentMixin = {
       }
     }
 
-    if (inst.componentDidExec) {
-      transaction.getReactMountReady().enqueue(inst.componentDidExec, inst);
-    }
+    return inst.exec().then(() => {
+      const children = [];
+      for (let key in this._renderedComponent._renderedChildren) {
+        const child = this._renderedComponent._renderedChildren[key];
+        children.push(child);
+      }
 
-    return markup;
+      if (children.length === 0) {
+        if (inst.componentDidExec) { inst.componentDidExec(); }
+        return Promise.resolve();
+      }
+
+      if (inst.props.parallelTasks === true) {
+        return Promise.all(children.map((c) => c.start())).then(() => {
+          if (inst.componentDidExec) { inst.componentDidExec(); }
+        });
+      } else {
+        return children.reduce((cur, next) => {
+          return cur.then(next.start.bind(next));
+        }, Promise.resolve()).then(() => {
+          if (inst.componentDidExec) { inst.componentDidExec(); }
+        })
+      }
+    });
   }
 };
 

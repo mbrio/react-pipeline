@@ -59,11 +59,9 @@ export default class ReactPipeline {
         transaction.perform(function () {
           const componentInstance = instantiatePipelineComponent(element, null);
           const mountedComponent = componentInstance
-            .mountComponent(id, transaction, emptyObject);
+          .mountComponent(id, transaction, emptyObject);
 
-          const inst = componentInstance._instance;
-          // Execute the tasks
-          inst.start()
+          return componentInstance.start(transaction, emptyObject)
           .then(() => {
             componentInstance.unmountComponent();
             return resolve(mountedComponent);

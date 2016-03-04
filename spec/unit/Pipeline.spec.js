@@ -20,16 +20,5 @@ describe('Pipeline', () => {
         <Pipeline><TestTask callback={callback} /></Pipeline>
       );
     });
-
-    pit('contains tasks property that inherits from Pipeline', () => {
-      function callback() {
-        expect(this.context.tasks).toBeDefined();
-        expect(this.context.tasks instanceof Pipeline).toBe(true);
-      };
-
-      return ReactPipeline.start(
-        <Pipeline><TestTask callback={callback} /></Pipeline>
-      );
-    });
   });
 });

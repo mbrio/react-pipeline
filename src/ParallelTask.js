@@ -7,15 +7,9 @@ import Task from './Task';
  */
 export default class ParallelTask extends Task {
   /**
-   * Run's all of the child tasks in parallel
-   * @return {Promise<undefined,Error>} the promise associated with the async
-   *                                    task.
+   * Sets the default value for the parallelTasks property to true
    */
-  start() {
-    return this.exec().then(() => {
-      if (this.tasks.length > 0) {
-        return Promise.all(this.tasks.map(task => task()))
-      }
-    });
-  }
+  static defaultProps = {
+    parallelTasks: true
+  };
 }

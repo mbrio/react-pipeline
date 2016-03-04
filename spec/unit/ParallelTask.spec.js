@@ -19,11 +19,20 @@ describe('ParallelTask', () => {
       const mockCallback = jest.genMockFunction().mockImplementation(() => {
         return Promise.resolve();
       });
-      const parallel = new ParallelTask({}, {});
-      parallel.exec = mockCallback;
-      return parallel.start().then(() => {
+
+      class InnerParallelTask extends ParallelTask {
+        exec() { return mockCallback(); }
+      }
+      
+      return ReactPipeline.start(
+        <Pipeline>
+          <InnerParallelTask />
+        </Pipeline>
+      ).then(data => {
         expect(mockCallback.mock.calls.length).toBe(1);
-      });
+      })
+      .catch(fail);
+
     });
 
     pit('executes child tasks in parallel', () => {

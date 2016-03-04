@@ -11,7 +11,6 @@ export default class Pipeline extends Task {
    */
   static childContextTypes = {
     pipeline: React.PropTypes.object.isRequired,
-    tasks: React.PropTypes.object.isRequired
   };
 
   // Since this is the top level element we must override the required context
@@ -25,9 +24,6 @@ export default class Pipeline extends Task {
    * @return {object} the child context.
    */
   getChildContext() {
-    return {
-      pipeline: this,
-      tasks: this
-    };
+    return { pipeline: this };
   }
 }

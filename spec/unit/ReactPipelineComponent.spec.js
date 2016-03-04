@@ -29,10 +29,17 @@ describe('ReactPipelineComponent', () => {
         }
       }
 
-      return ReactPipeline.start(<Pipeline><InnerTestTask /></Pipeline>)
+      return ReactPipeline.start(
+        <Pipeline>
+          <InnerTestTask />
+          <InnerTestTask>
+            <InnerTestTask />
+          </InnerTestTask>
+        </Pipeline>
+      )
         .then(content => {
-          expect(content).toBe('<div><div></div></div>');
-          expect(mockCallback).toBeCalled();
+          expect(content).toBe('<div><div></div><div><div></div></div></div>');
+          expect(mockCallback.mock.calls.length).toBe(3);
         });
     });
     
