@@ -12,6 +12,12 @@ const ON_DOM_READY_QUEUEING = {
     this.reactMountReady.reset();
   },
 
+  /**
+   * Process all `onDOMReady` callbacks. This is what sets
+   * ReactPipelineRenderingTransaction apart from
+   * ReactServerRenderingTransaction. It ensures all lifecycle methods are
+   * called.
+   */
   close: function () {
     this.reactMountReady.notifyAll();
   }

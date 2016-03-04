@@ -5,7 +5,16 @@ const ReactPipelineComponent = require('../../src/ReactPipelineComponent').defau
 const Task = require('../../src/Task').default;
 
 describe('ReactPipelineComponent', () => {
-  it('should provide a mixin', () => {
-    expect(ReactPipelineComponent.Mixin).toBeDefined();
+  /* Unfortunately needed for 100% code coverage */
+  describe('cnstr', () => {
+    it('instantiates', () => {
+      expect(new ReactPipelineComponent()).toBeDefined();
+    });
+  });
+
+  describe('Mixin', () => {
+    it('should provide be defined', () => {
+      expect(ReactPipelineComponent.Mixin).toBeDefined();
+    });
   });
 });

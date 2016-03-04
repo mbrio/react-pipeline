@@ -13,6 +13,7 @@ const EmptyReactComponent = require('../EmptyReactComponent').default;
 const pkg = require('../../package.json');
 
 describe('PipelineElement', () => {
+  /* Unfortunately needed for 100% code coverage */
   describe('cnstr', () => {
     it ('instantiates', () => {
       expect(new ReactPipeline()).toBeDefined();

@@ -1,9 +1,11 @@
-import react from 'react';
 import ReactCompositeComponent from 'react/lib/ReactCompositeComponent';
 import assign from 'react/lib/Object.assign';
 
-const ReactPipelineComponentMixin = assign({}, ReactCompositeComponent.Mixin);
+const ReactCompositeComponentMixin = ReactCompositeComponent.Mixin;
 
-export default {
-  Mixin: ReactPipelineComponentMixin
+const ReactPipelineComponentMixin = {
+};
+
+export default class ReactPipelineComponent {
+  static Mixin = assign({}, ReactCompositeComponentMixin, ReactPipelineComponentMixin);
 };

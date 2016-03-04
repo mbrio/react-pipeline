@@ -12,10 +12,10 @@ import ReactDOMComponent from 'react/lib/ReactDOMComponent';
 import ReactDefaultInjection from 'react/lib/ReactDefaultInjection';
 
 import emptyObject from 'fbjs/lib/emptyObject';
-import instantiateReactComponent from 'react/lib/instantiateReactComponent';
 import invariant from 'fbjs/lib/invariant';
 
 import pkg from '../package.json';
+import instantiatePipelineComponent from './instantiatePipelineComponent';
 
 ReactDefaultInjection.inject();
 
@@ -57,7 +57,7 @@ export default class ReactPipeline {
 
       return new Promise((resolve, reject) => {
         transaction.perform(function () {
-          const componentInstance = instantiateReactComponent(element, null);
+          const componentInstance = instantiatePipelineComponent(element, null);
           const mountedComponent = componentInstance
             .mountComponent(id, transaction, emptyObject);
 
