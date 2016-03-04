@@ -61,7 +61,11 @@
     ],
     "testDirectoryName": "spec/unit",
     "testPathIgnorePatterns": [
-      "/node_modules/"
+      "/node_modules/",
+      "<rootDir/>/lib/"
+    ],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/lib"
     ],
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/react",
