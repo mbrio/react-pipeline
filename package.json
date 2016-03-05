@@ -39,10 +39,8 @@
     "collectCoverageOnlyFrom": {
       "<rootDir>/src/ReactPipeline.js": true,
       "<rootDir>/src/ReactPipelineComponent.js": true,
-      "<rootDir>/src/ReactPipelineRenderingTransaction.js": true,
-      "<rootDir>/src/ReactPipelineChildReconciler.js": true,
       "<rootDir>/src/ReactPipelineDOMComponent.js": true,
-      "<rootDir>/src/ReactPipelineInjection.js": true,
+      "<rootDir>/src/ReactPipelineStartMixin.js": true,
       "<rootDir>/src/Task.js": true,
       "<rootDir>/src/index.js": true
     },

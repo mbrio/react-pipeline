@@ -37,29 +37,44 @@ describe('ReactPipelineComponent', () => {
         </Task>
       )
         .then(content => {
-          expect(content).toBe('<div><div></div><div><div></div></div></div>');
           expect(mockCallback.mock.calls.length).toBe(3);
         });
     });
     
-    pit('should update state', () => {
+    pit('should execute with no children', () => {
       const mockCallback = jest.genMockFunction();
-      const message = 'Hello, World!';
-      let _instance;
 
       class InnerTestTask extends Task {
         componentWillExec() {
-          _instance = this;
-          this.setState({ message });
           mockCallback();
         }
       }
 
-      return ReactPipeline.start(<Task><InnerTestTask /></Task>)
+      return ReactPipeline.start(<InnerTestTask />)
         .then(content => {
-          expect(content).toBe('<div><div></div></div>');
           expect(mockCallback).toBeCalled();
-          expect(_instance.state.message).toBe(message);
+        });
+    });
+
+    pit('should execute from standard React element', () => {
+      return ReactPipeline.start(<div />)
+        .then(content => {
+          expect(content).toBe('<div></div>');
+        });
+    });
+
+    pit('should execute children from standard React element', () => {
+      const mockCallback = jest.genMockFunction();
+
+      class InnerTestTask extends Task {
+        componentWillExec() {
+          mockCallback();
+        }
+      }
+
+      return ReactPipeline.start(<div><InnerTestTask /></div>)
+        .then(content => {
+          expect(mockCallback).toBeCalled();
         });
     });
   });
@@ -75,7 +90,6 @@ describe('ReactPipelineComponent', () => {
 
       return ReactPipeline.start(<Task><InnerTestTask /></Task>)
         .then(content => {
-          expect(content).toBe('<div><div></div></div>');
           expect(mockCallback).toBeCalled();
         });
     });

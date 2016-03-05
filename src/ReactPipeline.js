@@ -36,6 +36,7 @@ export default class ReactPipeline {
    *                                  execution, resolves to the rendered HTML
    */
   static start(element) {
+    /* istanbul ignore next */
     !ReactElement.isValidElement(element) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'start(): You must pass a valid ReactElement.') : invariant(false) : undefined;
 
     let transaction;
@@ -57,7 +58,6 @@ export default class ReactPipeline {
             componentInstance.unmountComponent();
             return resolve(mountedComponent);
           })
-          .catch(reject);
         }, null);
       });
     } finally {
