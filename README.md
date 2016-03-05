@@ -1,8 +1,8 @@
-# react-pipeline
+# React Pipeline
 
 A task execution pipeline described in JSX.
 
-[![Build Status](https://api.travis-ci.org/mbrio/react-pipeline.svg?branch=master)](https://travis-ci.org/mbrio/react-pipeline)
+[![Build Status](https://api.travis-ci.org/mbrio/React Pipeline.svg?branch=master)](https://travis-ci.org/mbrio/React Pipeline)
 
 ## Install
 
@@ -13,57 +13,40 @@ $ npm install --save react react-pipeline
 ## Example
 
 An example application can be found at
-[react-pipeline-example](https://github.com/mbrio/react-pipeline-example).
+[React Pipeline-example](https://github.com/mbrio/React Pipeline-example).
 
-## Alpha Warning
+## Versions
 
-The current implementation works well and is currently feature complete for my
-plans for version 1. I wanted the API to be incredibly simple, utilizing as few
-components as I could in order to meet my goals. My warning the internal
-implementation will change. I am not 100% happy with my current implementation,
-and you should not rely on `context.tasks` to be available in future releases.
-
-My current implementation makes available `context.tasks` which is a pointer to
-the parent `Task` instance, when a `Task` is instantiated it enqueue's it's
-`start` method with it's parent `Task` through this context variable. This is
-not utilizing the internals of React the way it should, and feels like a hack to
-me.
-
-What I plan on changing is depricating `context.tasks`, `Task.registerTask`, and
-`Task.enqueue`; and replacing them by executing the `start` method in the same
-way other lifecycle calls are made.
-
-The `ReactPipeline` class utilizes code from `ReactDOMServer.renderToString` to
-setup and execute tasks. I tried to mirror how and when the `Task.start` method
-was executed in comparison to `componentWillMount`. This works well on the root
-component, but not on it's children.
+React Pipeline uses semver and will match the versioning of React so developers
+know what version to install for their version of React. The exception is React
+Pipeline's major version will match React's minor version, until React migrates
+their minor versions to major versions. At the time of this writing React is
+version 0.14.7, this would correspond to 14.7.0 in React Pipeline. When React
+ups it's version to 15, they will be migrating their minor version to major, at
+which time React Pipeline will match the React versioning exactly.
 
 ## Roadmap
 
-I have three potential goals for *react-pipeline*:
-
-- The first is to get out of alpha by restructuring the internals to mirror
-  React lifecycle methods. [v1.0.0]
-- The second is to migrate to a runtime that mirrors the `ReactDOM.render` as
+- Migrate to a runtime that mirrors the `ReactDOM.render` as
   opposed to `ReactDOMServer.renderToString`. The `ReactDOM` implementation is
   more of a living application that is affected over time whereas
-  `ReactDOMServer` is more of a static implementation. [v2.0.0]
-- The third is to utilize the `render` method to output a visual representation
+  `ReactDOMServer` is more of a static implementation.
+- Utilize the `render` method to output a visual representation
   of the pipeline. This could be used to generate administrative interfaces or
-  to visualize the currently executing tasks. [v3.0.0]
+  to visualize the currently executing tasks.
 
 ## Introduction
 
-The pipeline consists of three React components: `Task`, `Pipeline`, and 
-`ParallelTask`. Along with these components there is `PipelineElement` which
-will mirror the functionality of `ReactElement`, but currently is relegated to
-element validation; and `ReactPipeline` which is used to start the task
-pipeline, and mirrors the functionality of `ReactDOMServer`.
+The pipeline consists of one React component, `Task`; and the `ReactPipeline`
+class whice is used to start the task pipeline, and mirrors the functionality of
+`ReactDOMServer`.
 
-The `Task` component is the base class for all *react-pipeline* components; both
-`Pipeline` and `ParallelTask` inherit from it. In order to implement your task's
-functionality you need only inherit from `Task` and override the `exec` method.
-The `exec` method must return a promise.
+The `Task` component is a standard React component configured to be used within
+React Pipeline. The pipeline can use any React component, but only components
+with an `exec` method will be run during execution.
+
+In order to implement your task's functionality you need only inherit from
+`Task` and override the `exec` method.  The `exec` method must return a Promise.
 
 ```
 export default class PauseTask extends Task {
@@ -77,26 +60,44 @@ export default class PauseTask extends Task {
 }
 ```
 
-A pipeline's root component must be `Pipeline`, or inherited from `Pipeline`.
+If inheriting from Task and overriding `render`, or starting from scratch with
+your own component and implementing `render`, it is very important, if you are
+supporting child tasks, to ensure `render` outputs it's `this.props.children`.
+If child tasks are not executing it is because your component is not rendering
+it's children.
+
+```
+export default class AwesomeClass {
+  exec() {
+    return Promise.resolve();
+  }
+
+  render() {
+    return <div>{this.props.children}</div>
+  }
+}
+```
+
 `Task` objects can have any number of children and their tasks will run in
 series once the parent's task is complete. The exception to this rule is when
-using `ParallelTask`, each of it's children's tasks will be run in parallel.
+setting the property `parallelTasks` to true, each of it's children's tasks will
+be run in parallel.
 
 ```
 ReactPipeline.start(
-  <Pipeline>
+  <Task>
     <CreateAWSServer>
       <Geocoding input={rawPath} output={geoPath} />
       <RunPig script={resolveScript} input={geoPath} output={resolvePath} />
       <RunPig script={joinScript} input={resolvePath} output={joinPath} />
       <RunSpark script={mlScript} input={joinPath} output={mlPath} />
-      <ParallelTask>
+      <Task parallelTasks={true}>
         <Upload input={joinPath} output={joinDestination} />
         <Upload input={mlPath} output={mlDestination} />
-      </ParallelTask>
+      </Task>
       <Email to={adminEmail} subject={subject} body="pipeline complete" />
     </CreateAWSServer>
-  </Pipeline>
+  </Task>
 );
 ```
 
@@ -117,7 +118,7 @@ The outcome of those tasks are as follows:
 ## Lifecycle Methods
 
 Currently all lifecycle methods that are supported by `ReactDOMServer` are
-supported in *react-pipeline*, this includes `getDefaultProps` and
+supported in React Pipeline, this includes `getDefaultProps` and
 `componentWillMount`. Along with these lifecycle methods two additional
 lifecycle methods have been added `componentWillExec` and `componentDidExec`.
 `componentWillExec` gets called for each `Task` instance before it's `exec`
@@ -143,8 +144,8 @@ string these tasks together. On one fateful day I was working on a React
 project while some of my data analysis tasks were running when I realized that
 describing a pipeline using JSX and executing those tasks under React+Redux
 would be intuitive and would allow me to easily write tasks involving server
-code in Node.js. Thus *react-pipeline* was born.
+code in Node.js. Thus React Pipeline was born.
 
 ## License
 
-*react-pipeline* is [BSD licensed](./LICENSE).
+React Pipeline is [BSD licensed](./LICENSE).

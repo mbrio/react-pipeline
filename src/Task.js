@@ -2,6 +2,11 @@ import React from 'react';
 
 /**
  * Defines a task, is able to run it's children tasks in series or parallel.
+ * A task does not need to inherit from this class, it can be any React
+ * component. If the component has an exec method then it will be executed, but
+ * one is not required to process each of it's children. If the component
+ * defines it's own render method it should ensure that it's children are
+ * rendered, otherwise it's children's tasks will not run.
  * @class
  */
 export default class Task extends React.Component {
