@@ -28,24 +28,9 @@ describe('PipelineElement', () => {
 
   describe('start', () => {
     it('fails with invalid element', () => {
-      function failing() {
-        ReactPipeline.start({});
-      }
+      function failing() { ReactPipeline.start({}); }
 
       expect(failing).toThrow();
-    });
-
-    pit('executes child tasks when parental element has no exec', () => {
-      const mockCallback = jest.genMockFunction();
-      return ReactPipeline.start(
-        <Task>
-          <EmptyReactComponent>
-            <TestTask callback={mockCallback} />
-          </EmptyReactComponent>
-        </Task>
-      ).then(data => {
-        expect(mockCallback).toBeCalled();
-      });
     });
 
     pit('executes empty pipeline', () => {
@@ -55,21 +40,52 @@ describe('PipelineElement', () => {
         });
     });
 
-    pit('executes child tasks', () => {
-      const mockCallback = jest.genMockFunction();
-      return ReactPipeline.start(
-        <Task><TestTask callback={mockCallback} /></Task>
-      ).then(data => {
-        expect(mockCallback.mock.calls.length).toBe(1);
-      });
+    pit('executes dom components', () => {
+      return ReactPipeline.start(<div/>)
+        .then(data => {
+          expect(data).toBe('<div></div>');
+        });
     });
 
-    pit('executes multiple levels of child tasks', () => {
-      const mockCallback = jest.genMockFunction();
-      return ReactPipeline.start(
-        <Task><Task><TestTask callback={mockCallback} /></Task></Task>
-      ).then(data => {
-        expect(mockCallback.mock.calls.length).toBe(1);
+    describe('has child tasks', () => {
+      pit('executes child tasks', () => {
+        const mockCallback = jest.genMockFunction();
+        return ReactPipeline.start(
+          <Task><TestTask callback={mockCallback} /></Task>
+        ).then(data => {
+          expect(mockCallback).toBeCalled();
+        });
+      });
+
+      pit('executes child tasks within dom components', () => {
+        const mockCallback = jest.genMockFunction();
+        return ReactPipeline.start(
+          <div><TestTask callback={mockCallback} /></div>
+        ).then(data => {
+          expect(mockCallback).toBeCalled();
+        });
+      });
+
+      pit('executes multiple levels of child tasks', () => {
+        const mockCallback = jest.genMockFunction();
+        return ReactPipeline.start(
+          <Task><Task><TestTask callback={mockCallback} /></Task></Task>
+        ).then(data => {
+          expect(mockCallback).toBeCalled();
+        });
+      });
+      
+      pit('executes multiple levels of child tasks when parental element has no exec', () => {
+        const mockCallback = jest.genMockFunction();
+        return ReactPipeline.start(
+          <Task>
+            <EmptyReactComponent>
+              <TestTask callback={mockCallback} />
+            </EmptyReactComponent>
+          </Task>
+        ).then(data => {
+          expect(mockCallback).toBeCalled();
+        });
       });
     });
   });
