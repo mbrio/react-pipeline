@@ -13,40 +13,52 @@ $ npm install --save react react-pipeline
 ## Example
 
 An example application can be found at
-[React Pipeline-example](https://github.com/mbrio/React Pipeline-example).
+[react-pipeline-example](https://github.com/mbrio/react-pipeline-example).
 
 ## Versions
 
 React Pipeline uses semver and will match the versioning of React so developers
 know what version to install for their version of React. The exception is React
-Pipeline's major version will match React's minor version, until React migrates
-their minor versions to major versions. At the time of this writing React is
-version 0.14.7, this would correspond to 14.7.0 in React Pipeline. When React
-ups it's version to 15, they will be migrating their minor version to major, at
-which time React Pipeline will match the React versioning exactly.
+Pipeline's major version will match React's minor version. At the time of this
+writing React is version 0.14.7, this would correspond to 14.7.0 in React
+Pipeline. When React releases version 15, they will be migrating their minor
+version to major, at which time React Pipeline will match the exactly.
 
 ## Roadmap
 
-- Migrate to a runtime that mirrors the `ReactDOM.render` as
-  opposed to `ReactDOMServer.renderToString`. The `ReactDOM` implementation is
+- Simplify internal API futher. This means that developers should rely on the
+  two exported classes that React Pipeline makes available to be stable, but
+  any internal classes that are not expored by index.js to be considered
+  volatile.
+- Migrate to a runtime that mirrors the `ReactDOM.render()` as
+  opposed to `ReactDOMServer.renderToString()`. The `ReactDOM` implementation is
   more of a living application that is affected over time whereas
   `ReactDOMServer` is more of a static implementation.
-- Utilize the `render` method to output a visual representation
+- Utilize the `render()` method to output a visual representation
   of the pipeline. This could be used to generate administrative interfaces or
   to visualize the currently executing tasks.
 
 ## Introduction
 
-The pipeline consists of one React component, `Task`; and the `ReactPipeline`
-class whice is used to start the task pipeline, and mirrors the functionality of
-`ReactDOMServer`.
+React Pipeline consists of two exported classes, `Task` and `ReactPipeline`.
+`Task` is an example class wired with everything available for use within
+`ReactPipeline` including a standard `render()` method, an empty `exec()` method
+and a `parallelTasks` property.
+
+The `ReactPipeline` class has one static method which starts all of the tasks.
+The method is very similar to `ReactDOMServer.render()`, and should be called
+in a similar way.
+
+```
+ReactPipeline.start(<Task />);
+```
 
 The `Task` component is a standard React component configured to be used within
 React Pipeline. The pipeline can use any React component, but only components
-with an `exec` method will be run during execution.
+with an `exec()` method will be run during execution.
 
 In order to implement your task's functionality you need only inherit from
-`Task` and override the `exec` method.  The `exec` method must return a Promise.
+`Task` and override the `exec()` method.  The `exec()` method must return a Promise.
 
 ```
 export default class PauseTask extends Task {
@@ -60,9 +72,9 @@ export default class PauseTask extends Task {
 }
 ```
 
-If inheriting from Task and overriding `render`, or starting from scratch with
-your own component and implementing `render`, it is very important, if you are
-supporting child tasks, to ensure `render` outputs it's `this.props.children`.
+If inheriting from Task and overriding `render()`, or starting from scratch with
+your own component and implementing `render()`, it is very important, if you are
+supporting child tasks, to ensure `render()` outputs it's `this.props.children`.
 If child tasks are not executing it is because your component is not rendering
 it's children.
 
@@ -80,8 +92,8 @@ export default class AwesomeClass {
 
 `Task` objects can have any number of children and their tasks will run in
 series once the parent's task is complete. The exception to this rule is when
-setting the property `parallelTasks` to true, each of it's children's tasks will
-be run in parallel.
+setting the property `parallelTasks()` to true, each of it's children's tasks
+will be run in parallel.
 
 ```
 ReactPipeline.start(
@@ -118,13 +130,13 @@ The outcome of those tasks are as follows:
 ## Lifecycle Methods
 
 Currently all lifecycle methods that are supported by `ReactDOMServer` are
-supported in React Pipeline, this includes `getDefaultProps` and
-`componentWillMount`. Along with these lifecycle methods two additional
-lifecycle methods have been added `componentWillExec` and `componentDidExec`.
-`componentWillExec` gets called for each `Task` instance before it's `exec`
-method is called or any of it's child tasks are started. `componentDidExec` gets
-called for each `Task` instance after it's `exec` method is called and after all
-of it's child tasks have completed.
+supported in React Pipeline, this includes `getDefaultProps()` and
+`componentWillMount()`. Along with these lifecycle methods two additional
+lifecycle methods have been added `componentWillExec()` and
+`componentDidExec()`.  `componentWillExec()` gets called for each `Task`
+instance before it's `exec()` method is called or any of it's child tasks are
+started. `componentDidExec()` gets called for each `Task` instance after it's
+`exec()` method is called and after all of it's child tasks have completed.
 
 ## Rationale
 
