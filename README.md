@@ -2,7 +2,7 @@
 
 A task execution pipeline described in JSX.
 
-[![Build Status](https://api.travis-ci.org/mbrio/React Pipeline.svg?branch=master)](https://travis-ci.org/mbrio/React Pipeline)
+[![Build Status](https://api.travis-ci.org/mbrio/react-pipeline.svg?branch=master)](https://travis-ci.org/mbrio/react-pipeline)
 
 ## Install
 
