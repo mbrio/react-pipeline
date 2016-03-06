@@ -33,6 +33,15 @@ describe('PipelineElement', () => {
       expect(failing).toThrow();
     });
 
+    it('fails with invalid element', () => {
+      const prevEnv = process.env.NODE_ENV;
+      process.env.NODE_ENV = 'production';
+      function failing() { ReactPipeline.start({}); }
+
+      expect(failing).toThrow();
+      process.env.NODE_ENV = prevEnv;
+    });
+
     pit('executes empty pipeline', () => {
       return ReactPipeline.start(<Task/>)
         .then(data => {

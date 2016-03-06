@@ -40,6 +40,7 @@ export default class ReactPipeline {
     !ReactElement.isValidElement(element) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'start(): You must pass a valid ReactElement.') : invariant(false) : undefined;
 
     let transaction;
+    /* istanbul ignore next */
     try {
       ReactUpdates.injection
         .injectBatchingStrategy(ReactServerBatchingStrategy);

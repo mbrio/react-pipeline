@@ -14,7 +14,7 @@
     "lint": "eslint src/*.js src/**/*.js spec/*.js spec/**/*.js"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=5"
   },
   "author": {
     "name": "Michael Diolosa",
@@ -47,7 +47,6 @@
     },
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
     "preprocessCachingDisabled": true,
-    "testRunner": "<rootDir>/node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js",
     "testFileExtensions": [
       "js"
     ],
@@ -58,10 +57,11 @@
     "testDirectoryName": "spec/unit",
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "<rootDir/>/lib/"
+      "<rootDir>/lib/"
     ],
     "modulePathIgnorePatterns": [
-      "<rootDir>/lib"
+      "/node_modules/",
+      "<rootDir>/lib/"
     ],
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/react",
@@ -102,9 +102,9 @@
     "babel-runtime": "^6.6.1",
     "esdoc": "^0.4.5",
     "esdoc-es7-plugin": "0.0.3",
-    "eslint": "^2.2.0",
+    "eslint": "2.2.0",
     "eslint-plugin-react": "^4.1.0",
-    "jest-cli": "^0.9.0-fb3",
+    "jest-cli": "^0.9.0",
     "rimraf": "^2.5.2"
   }
 }
