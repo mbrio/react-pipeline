@@ -54,11 +54,11 @@ export default class ReactPipeline {
           const mountedComponent = componentInstance
           .mountComponent(id, transaction, emptyObject);
 
-          return componentInstance.start(transaction, emptyObject)
+          componentInstance.start(transaction, emptyObject)
           .then(() => {
             componentInstance.unmountComponent();
-            return resolve(mountedComponent);
-          })
+            resolve(mountedComponent);
+          }).catch(reject);
         }, null);
       });
     } finally {

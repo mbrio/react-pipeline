@@ -1,12 +1,43 @@
 import React from 'react';
 
 const ReactPipeline = require('../../src/ReactPipeline').default;
+const Task = require('../../src/Task').default;
 const ReactPipelineStartMixin = require('../../src/ReactPipelineStartMixin').default;
 const instantiatePipelineComponent = require('../../src/instantiatePipelineComponent');
 
 describe('ReactPipelineStartMixin', () => {
   describe('start', () => {
     describe('when there is a component instance', () => {
+      fit('should update state before executing children', done => {
+        const mockCallback = jest.genMockFunction();
+
+        class ChildTask extends Task {
+          componentWillMount() { mockCallback(this.props.serverUrl); }
+          componentWillExec() { mockCallback(this.props.serverUrl); } 
+
+          exec() {
+            mockCallback();
+            return Promise.resolve();
+          }
+        }
+        
+        class ParentTask extends Task {
+          state = { serverUrl: null };
+          exec() {
+            this.setState({serverUrl: 'example.com'});
+            return Promise.resolve();
+          }
+          render() { return (<ChildTask serverUrl={this.state.serverUrl} />); }
+        }
+
+        ReactPipeline.start(<ParentTask><div></div></ParentTask>).then(() => {
+          expect(mockCallback.mock.calls.length).toBe(3);
+          expect(mockCallback.mock.calls[0][0]).toBe(null);
+          expect(mockCallback.mock.calls[1][0]).toBe('example.com');
+          done();
+        });
+      });
+
       pit('should call componentWillExec if it exists on the instance', () => {
         const mockCallback = jest.genMockFunction();
         const mock = {

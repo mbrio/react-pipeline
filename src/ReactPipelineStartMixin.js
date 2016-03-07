@@ -34,13 +34,21 @@ export default {
 
     return exec().then(() => {
       const children = [];
-      const renderedChildren = this._renderedComponent ?
-        this._renderedComponent._renderedChildren :
-        this._renderedChildren;
+      let renderedChildren = this._renderedChildren;
+     
+      if (this._renderedComponent) {
+        if (this._renderedComponent._instance && this._renderedComponent._instance.exec) {
+          children.push(this._renderedComponent);
+        } else if (this._renderedComponent._renderedChildren) {
+          renderedChildren = this._renderedComponent._renderedChildren;
+        }
+      }
 
-      for (let key in renderedChildren) {
-        const child = renderedChildren[key];
-        children.push(child);
+      if (renderedChildren) {
+        for (let key in renderedChildren) {
+          const child = renderedChildren[key];
+          children.push(child);
+        }
       }
 
       if (children.length === 0) {
