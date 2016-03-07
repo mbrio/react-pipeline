@@ -30,10 +30,6 @@ version to major, at which time React Pipeline will match the exactly.
   two exported classes that React Pipeline makes available to be stable, but
   any internal classes that are not expored by index.js to be considered
   volatile.
-- Migrate to a runtime that mirrors the `ReactDOM.render()` as
-  opposed to `ReactDOMServer.renderToString()`. The `ReactDOM` implementation is
-  more of a living application that is affected over time whereas
-  `ReactDOMServer` is more of a static implementation.
 - Utilize the `render()` method to output a visual representation
   of the pipeline. This could be used to generate administrative interfaces or
   to visualize the currently executing tasks.
@@ -41,16 +37,35 @@ version to major, at which time React Pipeline will match the exactly.
 ## Introduction
 
 React Pipeline consists of two exported classes, `Task` and `ReactPipeline`.
+
 `Task` is an example class wired with everything available for use within
 `ReactPipeline` including a standard `render()` method, an empty `exec()` method
 and a `parallelTasks` property.
 
-The `ReactPipeline` class has one static method which starts all of the tasks.
-The method is very similar to `ReactDOMServer.render()`, and should be called
-in a similar way.
+The `ReactPipeline` class has one static method, `start()`, which starts all of
+the tasks. It is important to note that while the `exec()` method is
+asynchronous, `ReactPipeline` will default to running each of the child tasks in
+series. If a developer wants to run the tasks in parallel, the parental
+component must have a property `parallelTasks` set to `true`.
 
 ```
-ReactPipeline.start(<Task />);
+import ReactPipeline, { Task } from 'react-pipeline';
+
+// Run tasks in series
+ReactPipeline.start(
+  <Task>
+    <Task />
+    <Task />
+  </Task>
+);
+
+// Run tasks in parallel
+ReactPipeline.start(
+  <Task parallelTasks={true}>
+    <Task />
+    <Task />
+  </Task>
+);
 ```
 
 The `Task` component is a standard React component configured to be used within
@@ -58,9 +73,12 @@ React Pipeline. The pipeline can use any React component, but only components
 with an `exec()` method will be run during execution.
 
 In order to implement your task's functionality you need only inherit from
-`Task` and override the `exec()` method.  The `exec()` method must return a Promise.
+`Task` and override the `exec()` method.  The `exec()` method must return a
+Promise.
 
 ```
+import { Task } from 'react-pipeline';
+
 export default class PauseTask extends Task {
   exec() {
     const duration = this.props.duration || 1000;
@@ -79,7 +97,7 @@ If child tasks are not executing it is because your component is not rendering
 it's children.
 
 ```
-export default class AwesomeClass {
+class AwesomeClass {
   exec() {
     return Promise.resolve();
   }
@@ -92,7 +110,7 @@ export default class AwesomeClass {
 
 `Task` objects can have any number of children and their tasks will run in
 series once the parent's task is complete. The exception to this rule is when
-setting the property `parallelTasks()` to true, each of it's children's tasks
+setting the property `parallelTasks` to `true`, each of it's children's tasks
 will be run in parallel.
 
 ```
@@ -126,6 +144,37 @@ The outcome of those tasks are as follows:
   - Upload the profile data to a location
   - Upload the results of the machine learning to a location
 - Email the admin that the pipeline has completed
+
+When creating a custom task it is possible to embed child tasks within it to
+create a reusable group of tasks. Using the above example we could combine the
+tasks into a reusable group.
+
+```
+class GroupClass extends Task {
+  render() {
+    return (
+      <CreateAWSServer>
+        <Geocoding input={rawPath} output={geoPath} />
+        <RunPig script={resolveScript} input={geoPath} output={resolvePath} />
+        <RunPig script={joinScript} input={resolvePath} output={joinPath} />
+        <RunSpark script={mlScript} input={joinPath} output={mlPath} />
+        <Task parallelTasks={true}>
+          <Upload input={joinPath} output={joinDestination} />
+          <Upload input={mlPath} output={mlDestination} />
+        </Task>
+        <Email to={adminEmail} subject={subject} body="pipeline complete" />
+        {this.props.children}
+      </CreateAWSServer>
+    );
+  }
+}
+
+ReactPipeline.start(
+  <GroupClass>
+    <LamdaClass />
+  </GroupClass>
+);
+```
 
 ## Lifecycle Methods
 
