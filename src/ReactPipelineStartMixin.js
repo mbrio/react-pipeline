@@ -31,42 +31,47 @@ export default {
     }
 
     const exec = inst && inst.exec ? inst.exec.bind(inst) : () => Promise.resolve();
+    const forceUpdate = inst && inst.forceUpdate ? inst.forceUpdate.bind(inst) : (cb) => cb();
 
     return exec().then(() => {
-      const children = [];
-      let renderedChildren = this._renderedChildren;
-     
-      if (this._renderedComponent) {
-        if (this._renderedComponent._instance && this._renderedComponent._instance.exec) {
-          children.push(this._renderedComponent);
-        } else if (this._renderedComponent._renderedChildren) {
-          renderedChildren = this._renderedComponent._renderedChildren;
-        }
-      }
+      return new Promise((resolve, reject) => {
+        forceUpdate(() => {
+          const children = [];
+          let renderedChildren = this._renderedChildren;
 
-      if (renderedChildren) {
-        for (let key in renderedChildren) {
-          const child = renderedChildren[key];
-          children.push(child);
-        }
-      }
+          if (this._renderedComponent) {
+            if (this._renderedComponent._instance && this._renderedComponent._instance.exec) {
+              children.push(this._renderedComponent);
+            } else if (this._renderedComponent._renderedChildren) {
+              renderedChildren = this._renderedComponent._renderedChildren;
+            }
+          }
 
-      if (children.length === 0) {
-        if (inst && inst.componentDidExec) { inst.componentDidExec(); }
-        return Promise.resolve();
-      }
+          if (renderedChildren) {
+            for (let key in renderedChildren) {
+              const child = renderedChildren[key];
+              children.push(child);
+            }
+          }
 
-      if (inst && inst.props.parallelTasks === true) {
-        return Promise.all(children.map((c) => c.start())).then(() => {
-          if (inst && inst.componentDidExec) { inst.componentDidExec(); }
+          if (children.length === 0) {
+            if (inst && inst.componentDidExec) { inst.componentDidExec(); }
+            return resolve();
+          }
+
+          if (inst && inst.props.parallelTasks === true) {
+            Promise.all(children.map((c) => c.start())).then(() => {
+              if (inst && inst.componentDidExec) { inst.componentDidExec(); }
+            }).then(resolve);
+          } else {
+            children.reduce((cur, next) => {
+              return cur.then(next.start.bind(next));
+            }, Promise.resolve()).then(() => {
+              if (inst && inst.componentDidExec) { inst.componentDidExec(); }
+            }).then(resolve);
+          }
         });
-      } else {
-        return children.reduce((cur, next) => {
-          return cur.then(next.start.bind(next));
-        }, Promise.resolve()).then(() => {
-          if (inst && inst.componentDidExec) { inst.componentDidExec(); }
-        })
-      }
+      });
     });
   }
 };

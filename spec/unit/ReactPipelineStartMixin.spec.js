@@ -8,7 +8,7 @@ const instantiatePipelineComponent = require('../../src/instantiatePipelineCompo
 describe('ReactPipelineStartMixin', () => {
   describe('start', () => {
     describe('when there is a component instance', () => {
-      fit('should update state before executing children', done => {
+      pit('should update state before executing children', () => {
         const mockCallback = jest.genMockFunction();
 
         class ChildTask extends Task {
@@ -30,11 +30,10 @@ describe('ReactPipelineStartMixin', () => {
           render() { return (<ChildTask serverUrl={this.state.serverUrl} />); }
         }
 
-        ReactPipeline.start(<ParentTask><div></div></ParentTask>).then(() => {
+        return ReactPipeline.start(<ParentTask><div></div></ParentTask>).then(() => {
           expect(mockCallback.mock.calls.length).toBe(3);
           expect(mockCallback.mock.calls[0][0]).toBe(null);
           expect(mockCallback.mock.calls[1][0]).toBe('example.com');
-          done();
         });
       });
 
