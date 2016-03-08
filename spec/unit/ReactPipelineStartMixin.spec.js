@@ -7,6 +7,52 @@ const instantiatePipelineComponent = require('../../src/instantiatePipelineCompo
 
 describe('ReactPipelineStartMixin', () => {
   describe('start', () => {
+    pit('ensure child properties are updates after tasks have completed', () => {
+      const mockCallback = jest.genMockFunction();
+
+      class ParentTask extends Task {
+        state = {
+          prevMessage: null
+        };
+        
+        handleComplete(message) {
+          this.setState({ prevMessage: message });
+        }
+        
+        render() {
+          console.log('==>', 'RENDERING PARENT');
+          console.log('this state', this.state.prevMessage);
+
+          return(
+            <Task>
+              <ChildTask onComplete={this.handleComplete.bind(this)} />
+              <ChildTask message={this.state.prevMessage} />
+            </Task>
+          );
+        }
+      }
+      
+      class ChildTask extends Task {
+        static propTypes = {
+          message: React.PropTypes.string,
+          onComplete: React.PropTypes.func
+        };
+
+        componentWillExec() {
+          if (this.props.message) { mockCallback(this.props.message); }
+        }
+
+        exec() {
+          if(this.props.onComplete) { this.props.onComplete('a message'); }
+          return Promise.resolve();
+        }
+      }
+
+      return ReactPipeline.start(<ParentTask />).then(() => {
+        expect(mockCallback.mock.calls[0][0]).toBe('a message');
+      });
+    });
+
     describe('when there is a component instance', () => {
       pit('should update state before executing children', () => {
         const mockCallback = jest.genMockFunction();
