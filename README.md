@@ -150,7 +150,7 @@ create a reusable group of tasks. Using the above example we could combine the
 tasks into a reusable group.
 
 ```
-class GroupClass extends Task {
+class GroupTask extends Task {
   render() {
     return (
       <CreateAWSServer>
@@ -170,11 +170,48 @@ class GroupClass extends Task {
 }
 
 ReactPipeline.start(
-  <GroupClass>
-    <LamdaClass />
-  </GroupClass>
+  <GroupTask>
+    <LamdaTask />
+  </GroupTask>
 );
 ```
+
+The above example combines the previous examples functionality into a reusable
+group, and allows for additional tasks to be added after all of it's tasks are
+complete.
+
+Finally, when running tasks in series, it is possible to update the properties
+on uncompleted tasks by setting the state in the parent. This could be useful
+if you are planning on piping the result of one task to the next. This is only
+reliable when running tasks in series.
+
+```
+class ParentTask extends Task {
+  state = {
+    lastResult: null
+  }
+
+  handleComplete(result) {
+    this.setState({ lastResult: result });
+  }
+
+  render() {
+    return (
+      <Task>
+        <ReadFile onComplete={this.handleComplete.bind(this)} />
+        <CountWords onComplete={this.handleComplete.bind(this)} lastResult={this.state.lastResult} />
+        <Top10MostUsedWords onComplete={this.handleComplete.bind(this)} lastResult={this.state.lastResult} />
+        <WriteFile onComplete={this.handleComplete.bind(this)} lastResult={this.state.lastResult} />
+      </Task>
+    )
+  }
+}
+```
+
+In the above example I illustrate how you could use hypothetical tasks,
+properties, and parental state to pipe the result of one task to the next. Here
+we read in a file, count the words, pick the top 10 most used words, then write
+those words out to a file.
 
 ## Lifecycle Methods
 
