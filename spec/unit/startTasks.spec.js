@@ -256,9 +256,18 @@ describe('startTasks', () => {
             });
           });
 
-          pit('should call componentDidExec if it exists on the instance', () => {
+          pit('should run child tasks', () => {
+            const mockStart = jest.genMockFunction()
+              .mockImplementation(() => Promise.resolve());
             const mockCallback = jest.genMockFunction();
             const mock = {
+              _renderedComponent: {
+                _renderedChildren: {
+                  test: {
+                    _instance: { exec: mockStart }
+                  }
+                }
+              },
               _instance: {
                 props: { parallelTasks: true },
                 componentDidExec: mockCallback
@@ -266,6 +275,7 @@ describe('startTasks', () => {
             };
 
             return startTasks.call(mock).then(() => {
+              expect(mockStart).toBeCalled();
               expect(mockCallback).toBeCalled();
             });
           });
