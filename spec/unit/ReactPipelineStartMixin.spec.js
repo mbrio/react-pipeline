@@ -138,6 +138,29 @@ describe('ReactPipelineStartMixin', () => {
         });
 
         describe('when run child tasks serially', () => {
+          it('should reject', done => {
+            const mockStart = jest.genMockFunction()
+              .mockImplementation(() => Promise.reject(new Error('error')));
+            const mock = {
+              _renderedComponent: {
+                _renderedChildren: {
+                  test: { start: mockStart }
+                }
+              },
+              _instance: {
+                props: { }
+              }
+            };
+
+            ReactPipelineStartMixin.start.call(mock).then(() => {
+              fail();
+            }).catch(err => {
+              expect(err.message).toBe('error');
+              expect(mockStart).toBeCalled();
+              done();
+            });
+          });
+
           pit('should run child tasks', () => {
             const mockStart = jest.genMockFunction()
               .mockImplementation(() => Promise.resolve());
@@ -181,6 +204,29 @@ describe('ReactPipelineStartMixin', () => {
         });
 
         describe('when run child tasks in parallel', () => {
+          it('should reject', done => {
+            const mockStart = jest.genMockFunction()
+              .mockImplementation(() => Promise.reject(new Error('error')));
+            const mock = {
+              _renderedComponent: {
+                _renderedChildren: {
+                  test: { start: mockStart }
+                }
+              },
+              _instance: {
+                props: { parallelTasks: true }
+              }
+            };
+
+            ReactPipelineStartMixin.start.call(mock).then(() => {
+              fail();
+            }).catch(err => {
+              expect(err.message).toBe('error');
+              expect(mockStart).toBeCalled();
+              done();
+            });
+          });
+
           pit('should run child tasks', () => {
             const mockStart = jest.genMockFunction()
               .mockImplementation(() => Promise.resolve());

@@ -20,6 +20,7 @@ module.exports = {
         "fit": true,
         "pit": true,
         "xit": true,
+        "fail": true,
         "expect": true
     },
     "rules": {
