@@ -7,7 +7,7 @@ A task execution pipeline described in JSX.
 ## Install
 
 ```
-$ npm install --save react react-pipeline
+$ npm install --save react@15.0.0-rc.1 react-pipeline@15.0.0-rc.1
 ```
 
 ## Example
