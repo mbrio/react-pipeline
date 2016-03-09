@@ -1,6 +1,6 @@
 jest.mock('../../src/instantiatePipelineComponent');
 
-import React from 'react';
+import React from 'react'; //eslint-disable-line no-unused-vars
 
 const ReactPipelineChildReconciler = require('../../src/ReactPipelineChildReconciler').default;
 const instantiatePipelineComponent = require('../../src/instantiatePipelineComponent');
@@ -13,12 +13,12 @@ const instantiatePipelineComponent = require('../../src/instantiatePipelineCompo
  */
 describe('ReactPipelineChildReconciler', () => {
   it('should fail when matching child keys', () => {
-    const result = ReactPipelineChildReconciler.instantiateChildren(['<div>'])
+    ReactPipelineChildReconciler.instantiateChildren(['<div>']);
     expect(instantiatePipelineComponent).toBeCalled();
   });
 
   it('should return null if no children are passed', () => {
-    const result = ReactPipelineChildReconciler.instantiateChildren()
+    const result = ReactPipelineChildReconciler.instantiateChildren();
     expect(result).toBe(null);
   });
 });

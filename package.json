@@ -28,12 +28,6 @@
       "stage-0"
     ]
   },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "rules": {
-      "strict": 0
-    }
-  },
   "jest": {
     "collectCoverage": true,
     "collectCoverageOnlyFrom": {
@@ -102,7 +96,7 @@
     "babel-runtime": "^6.6.1",
     "esdoc": "^0.4.5",
     "esdoc-es7-plugin": "0.0.3",
-    "eslint": "2.2.0",
+    "eslint": "^2.3.0",
     "eslint-plugin-react": "^4.1.0",
     "jest-cli": "^0.9.0",
     "rimraf": "^2.5.2"

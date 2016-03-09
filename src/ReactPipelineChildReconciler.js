@@ -28,7 +28,7 @@ const ReactPipelineChildReconciler = assign({}, ReactChildReconciler, {
    * @return {?object} A set of child instances.
    * @internal
    */
-  instantiateChildren: function (nestedChildNodes, transaction, context) {
+  instantiateChildren: function (nestedChildNodes) {
     if (nestedChildNodes == null) {
       return null;
     }

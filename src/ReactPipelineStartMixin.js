@@ -1,6 +1,3 @@
-import assign from 'react/lib/Object.assign';
-import traverseAllChildren from 'react/lib/traverseAllChildren';
-
 export default {
   /**
    * Runs the task and each of it's children's tasks.
@@ -62,13 +59,13 @@ export default {
           if (inst && inst.props.parallelTasks === true) {
             Promise.all(children.map((c) => c.start())).then(() => {
               if (inst && inst.componentDidExec) { inst.componentDidExec(); }
-            }).then(resolve);
+            }).then(resolve).catch(reject);
           } else {
             children.reduce((cur, next) => {
               return cur.then(next.start.bind(next));
             }, Promise.resolve()).then(() => {
               if (inst && inst.componentDidExec) { inst.componentDidExec(); }
-            }).then(resolve);
+            }).then(resolve).catch(reject);
           }
         });
       });

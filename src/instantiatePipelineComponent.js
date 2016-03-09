@@ -9,7 +9,7 @@
  * @providesModule instantiatePipelineComponent
  * @typechecks static-only
  */
-
+/*eslint-disable */
 'use strict';
 
 /**

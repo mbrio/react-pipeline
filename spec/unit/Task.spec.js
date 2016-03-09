@@ -1,10 +1,10 @@
 jest.dontMock('../helper');
 jest.dontMock('../TestTask');
 
-import React from 'react';
+import React from 'react'; //eslint-disable-line no-unused-vars
 
 const ReactPipeline = require('../../src/ReactPipeline').default;
-const Task = require('../../src/Task').default;
+const Task = require('../../src/Task').default; //eslint-disable-line no-unused-vars
 const TestTask = require('../TestTask').default;
 
 describe('Task', () => {
@@ -13,23 +13,23 @@ describe('Task', () => {
       const mockCallback = jest.genMockFunction().mockImplementation(() => {
         return Promise.resolve();
       });
-      class InnerTestTask extends TestTask {
+      class InnerTestTask extends TestTask { //eslint-disable-line no-unused-vars
         exec() { return mockCallback(); }
       }
 
       return ReactPipeline.start(<Task><InnerTestTask /></Task>)
-        .then(content => {
+        .then(() => {
           expect(mockCallback).toBeCalled();
         });
     });
   });
 
   describe('parallelTasks', () => {
-    fit('executes child tasks in parallel', done => {
+    it('executes child tasks in parallel', () => {
       const mockCallback = jest.genMockFunction();
       const sleeper = (dur) => {
         return () => {
-          return new Promise((resolve, reject) => {
+          return new Promise((resolve) => {
             expect(mockCallback).not.toBeCalled();
 
             setTimeout(() => {
@@ -42,16 +42,15 @@ describe('Task', () => {
             }
           });
         };
-      }
+      };
 
       return ReactPipeline.start(
         <Task parallelTasks={true}>
           <TestTask callback={sleeper(500)} />
           <TestTask callback={sleeper(100)} />
         </Task>
-      ).then(data => {
+      ).then(() => {
         expect(mockCallback.mock.calls.length).toBe(2);
-        done();
       });
     });
   });

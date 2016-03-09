@@ -3,12 +3,12 @@ jest.dontMock('../helper');
 jest.dontMock('../EmptyReactComponent');
 jest.dontMock('../../package.json');
 
-import React from 'react';
+import React from 'react'; //eslint-disable-line no-unused-vars
 
 const ReactPipeline = require('../../src/ReactPipeline').default;
-const Task = require('../../src/Task').default;
-const TestTask = require('../TestTask').default;
-const EmptyReactComponent = require('../EmptyReactComponent').default;
+const Task = require('../../src/Task').default; //eslint-disable-line no-unused-vars
+const TestTask = require('../TestTask').default; //eslint-disable-line no-unused-vars
+const EmptyReactComponent = require('../EmptyReactComponent').default; //eslint-disable-line no-unused-vars
 const pkg = require('../../package.json');
 
 describe('PipelineElement', () => {
@@ -61,7 +61,7 @@ describe('PipelineElement', () => {
         const mockCallback = jest.genMockFunction();
         return ReactPipeline.start(
           <Task><TestTask callback={mockCallback} /></Task>
-        ).then(data => {
+        ).then(() => {
           expect(mockCallback).toBeCalled();
         });
       });
@@ -70,7 +70,7 @@ describe('PipelineElement', () => {
         const mockCallback = jest.genMockFunction();
         return ReactPipeline.start(
           <div><TestTask callback={mockCallback} /></div>
-        ).then(data => {
+        ).then(() => {
           expect(mockCallback).toBeCalled();
         });
       });
@@ -79,7 +79,7 @@ describe('PipelineElement', () => {
         const mockCallback = jest.genMockFunction();
         return ReactPipeline.start(
           <Task><Task><TestTask callback={mockCallback} /></Task></Task>
-        ).then(data => {
+        ).then(() => {
           expect(mockCallback).toBeCalled();
         });
       });
@@ -92,7 +92,7 @@ describe('PipelineElement', () => {
               <TestTask callback={mockCallback} />
             </EmptyReactComponent>
           </Task>
-        ).then(data => {
+        ).then(() => {
           expect(mockCallback).toBeCalled();
         });
       });

@@ -1,9 +1,7 @@
-import React from 'react';
-import ReactNativeComponent from 'react/lib/ReactNativeComponent';
+import React from 'react'; //eslint-disable-line no-unused-vars
 
-const ReactPipelineComponent = require('../../src/ReactPipelineComponent').default;
 const instantiatePipelineComponent = require('../../src/instantiatePipelineComponent');
-const Task = require('../../src/Task').default;
+const Task = require('../../src/Task').default; //eslint-disable-line no-unused-vars
 
 /**
  * A note about unit tests for this file, the source code supplied in this
@@ -14,12 +12,12 @@ const Task = require('../../src/Task').default;
 describe('instantiatePipelineComponent', () => {
   it('should use custom mixin', () => {
     const c = instantiatePipelineComponent(<Task />, null);
-    expect(c._instantiateReactComponent).toBe(instantiatePipelineComponent);;
+    expect(c._instantiateReactComponent).toBe(instantiatePipelineComponent);
   });
 
   it('should use custom mixin', () => {
     const c = instantiatePipelineComponent(<Task />, null);
-    expect(c._instantiateReactComponent).toBe(instantiatePipelineComponent);;
+    expect(c._instantiateReactComponent).toBe(instantiatePipelineComponent);
     expect(c.start).toBeDefined();
   });
 });

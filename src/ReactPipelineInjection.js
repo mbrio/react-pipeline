@@ -12,4 +12,4 @@ export default class ReactPipelineInjection {
     ReactDefaultInjection.inject();
     ReactInjection.NativeComponent.injectGenericComponentClass(ReactPipelineDOMComponent);
   }
-};
+}
