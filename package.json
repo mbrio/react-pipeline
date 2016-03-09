@@ -55,7 +55,8 @@
     ],
     "modulePathIgnorePatterns": [
       "/node_modules/",
-      "<rootDir>/lib/"
+      "<rootDir>/lib/",
+      "<rootDir>/doc/"
     ],
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/react",
