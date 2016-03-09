@@ -33,7 +33,7 @@ version to major, at which time React Pipeline will match the exactly.
 
 ## Introduction
 
-React Pipeline consists of two exported classes, `Task` and `ReactPipeline`.
+React Pipeline exposes two public classes, `Task` and `ReactPipeline`.
 
 `Task` is an example class wired with everything available for use within
 `ReactPipeline` including a standard `render()` method, an empty `exec()` method
