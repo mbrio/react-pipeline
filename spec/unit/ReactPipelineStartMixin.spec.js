@@ -3,7 +3,6 @@ import React from 'react';
 const ReactPipeline = require('../../src/ReactPipeline').default;
 const Task = require('../../src/Task').default;
 const ReactPipelineStartMixin = require('../../src/ReactPipelineStartMixin').default;
-const instantiatePipelineComponent = require('../../src/instantiatePipelineComponent');
 
 describe('ReactPipelineStartMixin', () => {
   describe('start', () => {
@@ -20,9 +19,6 @@ describe('ReactPipelineStartMixin', () => {
         }
         
         render() {
-          console.log('==>', 'RENDERING PARENT');
-          console.log('this state', this.state.prevMessage);
-
           return(
             <Task>
               <ChildTask onComplete={this.handleComplete.bind(this)} />
@@ -152,7 +148,7 @@ describe('ReactPipelineStartMixin', () => {
                 }
               },
               _instance: {
-                props: { },
+                props: { }
               }
             };
 
@@ -173,7 +169,7 @@ describe('ReactPipelineStartMixin', () => {
               },
               _instance: {
                 props: {},
-                componentDidExec: mockCallback,
+                componentDidExec: mockCallback
               }
             };
 
@@ -195,7 +191,7 @@ describe('ReactPipelineStartMixin', () => {
                 }
               },
               _instance: {
-                props: { parallelTasks: true },
+                props: { parallelTasks: true }
               }
             };
 
@@ -216,7 +212,7 @@ describe('ReactPipelineStartMixin', () => {
               },
               _instance: {
                 props: { parallelTasks: true },
-                componentDidExec: mockCallback,
+                componentDidExec: mockCallback
               }
             };
 

@@ -1,7 +1,7 @@
-import React from 'react'; //eslint-disable-line no-unused-vars
+import React from 'react';
 
 const instantiatePipelineComponent = require('../../src/instantiatePipelineComponent');
-const Task = require('../../src/Task').default; //eslint-disable-line no-unused-vars
+const Task = require('../../src/Task').default;
 
 /**
  * A note about unit tests for this file, the source code supplied in this

@@ -1,5 +1,3 @@
-import React from 'react'; //eslint-disable-line no-unused-vars
-
 const ReactPipelineInjection = require('../../src/ReactPipelineInjection').default;
 
 describe('PipelineInjection', () => {

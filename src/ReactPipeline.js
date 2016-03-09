@@ -1,13 +1,9 @@
-import RenderDOMServer from 'react-dom/server';
 import ReactDefaultBatchingStrategy from 'react/lib/ReactDefaultBatchingStrategy';
 import ReactElement from 'react/lib/ReactElement';
 import ReactInstanceHandles from 'react/lib/ReactInstanceHandles';
-import ReactMarkupChecksum from 'react/lib/ReactMarkupChecksum';
 import ReactServerBatchingStrategy from 'react/lib/ReactServerBatchingStrategy';
 import ReactPipelineRenderingTransaction from './ReactPipelineRenderingTransaction';
 import ReactUpdates from 'react/lib/ReactUpdates';
-import ReactInjection from 'react/lib/ReactInjection';
-import ReactDOMComponent from 'react/lib/ReactDOMComponent';
 
 import emptyObject from 'fbjs/lib/emptyObject';
 import invariant from 'fbjs/lib/invariant';

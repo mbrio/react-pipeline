@@ -1,7 +1,5 @@
 jest.mock('../../src/instantiatePipelineComponent');
 
-import React from 'react'; //eslint-disable-line no-unused-vars
-
 const ReactPipelineChildReconciler = require('../../src/ReactPipelineChildReconciler').default;
 const instantiatePipelineComponent = require('../../src/instantiatePipelineComponent');
 

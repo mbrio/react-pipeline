@@ -15,7 +15,11 @@ export default class Task extends React.Component {
    * set to true.
    */
   static propTypes = {
-    parallelTasks: React.PropTypes.bool
+    parallelTasks: React.PropTypes.bool,
+    children: React.PropTypes.oneOfType([
+      React.PropTypes.arrayOf(React.PropTypes.node),
+      React.PropTypes.node
+    ])
   };
 
   /**

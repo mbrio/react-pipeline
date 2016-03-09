@@ -3,12 +3,12 @@ jest.dontMock('../helper');
 jest.dontMock('../EmptyReactComponent');
 jest.dontMock('../../package.json');
 
-import React from 'react'; //eslint-disable-line no-unused-vars
+import React from 'react';
 
 const ReactPipeline = require('../../src/ReactPipeline').default;
-const Task = require('../../src/Task').default; //eslint-disable-line no-unused-vars
-const TestTask = require('../TestTask').default; //eslint-disable-line no-unused-vars
-const EmptyReactComponent = require('../EmptyReactComponent').default; //eslint-disable-line no-unused-vars
+const Task = require('../../src/Task').default;
+const TestTask = require('../TestTask').default;
+const EmptyReactComponent = require('../EmptyReactComponent').default;
 const pkg = require('../../package.json');
 
 describe('PipelineElement', () => {

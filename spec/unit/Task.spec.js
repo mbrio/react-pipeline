@@ -1,10 +1,10 @@
 jest.dontMock('../helper');
 jest.dontMock('../TestTask');
 
-import React from 'react'; //eslint-disable-line no-unused-vars
+import React from 'react';
 
 const ReactPipeline = require('../../src/ReactPipeline').default;
-const Task = require('../../src/Task').default; //eslint-disable-line no-unused-vars
+const Task = require('../../src/Task').default;
 const TestTask = require('../TestTask').default;
 
 describe('Task', () => {
@@ -13,7 +13,7 @@ describe('Task', () => {
       const mockCallback = jest.genMockFunction().mockImplementation(() => {
         return Promise.resolve();
       });
-      class InnerTestTask extends TestTask { //eslint-disable-line no-unused-vars
+      class InnerTestTask extends TestTask {
         exec() { return mockCallback(); }
       }
 

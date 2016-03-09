@@ -14,7 +14,7 @@ describe('ReactPipelineRenderingTransaction', () => {
       }
 
       return ReactPipeline.start(<Task><MountTask /></Task>)
-        .then(content => {
+        .then(() => {
           expect(mockFn.mock.calls.length).toBe(3);
         });
     });

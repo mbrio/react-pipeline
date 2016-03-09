@@ -1,6 +1,5 @@
 import ReactDOMComponent from 'react/lib/ReactDOMComponent';
 import ReactCurrentOwner from 'react/lib/ReactCurrentOwner';
-import assign from 'react/lib/Object.assign';
 import ReactPipelineChildReconciler from './ReactPipelineChildReconciler';
 import ReactPipelineStartMixin from './ReactPipelineStartMixin';
 
@@ -25,4 +24,4 @@ export default class ReactPipelineDOMComponent extends ReactDOMComponent {
     }
     return ReactPipelineChildReconciler.instantiateChildren(nestedChildren, transaction, context);
   }
-};
+}
