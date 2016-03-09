@@ -29,8 +29,7 @@ export default class ReactPipeline {
    * Runs all of the tasks within the pipeline. This is very similar to the
    * server rendering that ships with React.
    * @param {ReactElement} element
-   * @return {Promise.<string, Error>} the Promise associated with the Task tree
-   *                                  execution, resolves to the rendered HTML
+   * @return {Promise} the Promise associated with the Task tree execution
    */
   static start(element) {
     /* istanbul ignore next */
@@ -48,13 +47,12 @@ export default class ReactPipeline {
       return new Promise((resolve, reject) => {
         transaction.perform(function () {
           const componentInstance = instantiateReactComponent(element, null);
-          const mountedComponent = componentInstance
-          .mountComponent(id, transaction, emptyObject);
+          componentInstance.mountComponent(id, transaction, emptyObject);
 
           startTasks.call(componentInstance)
           .then(() => {
             componentInstance.unmountComponent();
-            resolve(mountedComponent);
+            resolve();
           }).catch(reject);
         }, null);
       });

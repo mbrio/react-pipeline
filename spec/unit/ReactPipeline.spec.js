@@ -43,17 +43,19 @@ describe('PipelineElement', () => {
     });
 
     pit('executes empty pipeline', () => {
-      return ReactPipeline.start(<Task/>)
-        .then(data => {
-          expect(data).toBe('<div></div>');
+      const mockCallback = jest.genMockFunction();
+      class InnerTask extends Task {
+        componentDidExec = mockCallback
+      }
+
+      return ReactPipeline.start(<InnerTask/>)
+        .then(() => {
+          expect(mockCallback).toBeCalled();
         });
     });
 
     pit('executes dom components', () => {
-      return ReactPipeline.start(<div/>)
-        .then(data => {
-          expect(data).toBe('<div></div>');
-        });
+      return ReactPipeline.start(<div/>);
     });
 
     describe('has child tasks', () => {

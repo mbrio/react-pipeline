@@ -54,13 +54,4 @@ describe('Task', () => {
       });
     });
   });
-
-  describe('render', () => {
-    pit('should render basic content', () => {
-      return ReactPipeline.start(<Task><Task><Task /></Task><Task /></Task>)
-        .then(content => {
-          expect(content).toBe('<div><div><div></div></div><div></div></div>');
-        });
-    });
-  });
 });
