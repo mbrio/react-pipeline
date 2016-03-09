@@ -188,6 +188,11 @@ class ParentTask extends Task {
     lastResult: null
   }
 
+  constructor(props, context) {
+    super(props, context);
+    this.handleComplete = ::this.handleComplete;
+  }
+
   handleComplete(result) {
     this.setState({ lastResult: result });
   }
@@ -195,10 +200,10 @@ class ParentTask extends Task {
   render() {
     return (
       <Task>
-        <ReadFile onComplete={this.handleComplete.bind(this)} />
-        <CountWords onComplete={this.handleComplete.bind(this)} lastResult={this.state.lastResult} />
-        <Top10MostUsedWords onComplete={this.handleComplete.bind(this)} lastResult={this.state.lastResult} />
-        <WriteFile onComplete={this.handleComplete.bind(this)} lastResult={this.state.lastResult} />
+        <ReadFile onComplete={this.handleComplete} />
+        <CountWords onComplete={this.handleComplete} lastResult={this.state.lastResult} />
+        <Top10MostUsedWords onComplete={this.handleComplete} lastResult={this.state.lastResult} />
+        <WriteFile onComplete={this.handleComplete} lastResult={this.state.lastResult} />
       </Task>
     )
   }

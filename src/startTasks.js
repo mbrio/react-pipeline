@@ -27,8 +27,8 @@ export default function startTasks() {
     inst.componentWillExec();
   }
 
-  const exec = inst && inst.exec ? inst.exec.bind(inst) : () => Promise.resolve();
-  const forceUpdate = inst && inst.forceUpdate ? inst.forceUpdate.bind(inst) : (cb) => cb();
+  const exec = inst && inst.exec ? inst::inst.exec : () => Promise.resolve();
+  const forceUpdate = inst && inst.forceUpdate ? inst::inst.forceUpdate : (cb) => cb();
 
   return exec().then(() => {
     return new Promise((resolve, reject) => {
@@ -57,12 +57,12 @@ export default function startTasks() {
         }
 
         if (inst && inst.props.parallelTasks === true) {
-          Promise.all(children.map((c) => startTasks.call(c))).then(() => {
+          Promise.all(children.map((c) => c::startTasks())).then(() => {
             if (inst && inst.componentDidExec) { inst.componentDidExec(); }
           }).then(resolve).catch(reject);
         } else {
           children.reduce((cur, next) => {
-            return cur.then(startTasks.bind(next));
+            return cur.then(next::startTasks);
           }, Promise.resolve()).then(() => {
             if (inst && inst.componentDidExec) { inst.componentDidExec(); }
           }).then(resolve).catch(reject);

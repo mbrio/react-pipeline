@@ -14,6 +14,11 @@ describe('startTasks', () => {
           prevMessage: null
         };
 
+        constructor(props, context) {
+          super(props, context);
+          this.handleComplete = ::this.handleComplete;
+        }
+
         handleComplete(message) {
           this.setState({ prevMessage: message });
         }
@@ -21,7 +26,7 @@ describe('startTasks', () => {
         render() {
           return(
             <Task>
-              <ChildTask onComplete={this.handleComplete.bind(this)} />
+              <ChildTask onComplete={this.handleComplete} />
               <ChildTask message={this.state.prevMessage} />
             </Task>
           );

@@ -25,7 +25,7 @@ describe('Task', () => {
   });
 
   describe('parallelTasks', () => {
-    it('executes child tasks in parallel', () => {
+    pit('executes child tasks in parallel', () => {
       const mockCallback = jest.genMockFunction();
       const sleeper = (dur) => {
         return () => {
