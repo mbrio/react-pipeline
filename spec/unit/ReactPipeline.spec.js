@@ -11,7 +11,7 @@ const TestTask = require('../TestTask').default;
 const EmptyReactComponent = require('../EmptyReactComponent').default;
 const pkg = require('../../package.json');
 
-describe('PipelineElement', () => {
+describe('ReactPipeline', () => {
   /* Unfortunately needed for 100% code coverage */
   describe('cnstr', () => {
     it ('instantiates', () => {

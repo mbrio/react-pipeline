@@ -161,6 +161,7 @@ describe('startTasks', () => {
 
             startTasks.call(mock).then(() => {
               fail();
+              done();
             }).catch(err => {
               expect(err.message).toBe('error');
               expect(mockStart).toBeCalled();
@@ -233,6 +234,7 @@ describe('startTasks', () => {
 
             startTasks.call(mock).then(() => {
               fail();
+              done();
             }).catch(err => {
               expect(err.message).toBe('error');
               expect(mockStart).toBeCalled();

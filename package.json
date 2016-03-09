@@ -1,6 +1,6 @@
 {
   "name": "react-pipeline",
-  "version": "14.7.1",
+  "version": "15.0.0-rc.1",
   "description": "A task execution pipeline described in JSX",
   "main": "lib/index.js",
   "scripts": {
@@ -57,7 +57,6 @@
     ],
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/react",
-      "<rootDir>/node_modules/react-dom",
       "<rootDir>/node_modules/fbjs",
       "<rootDir>/node_modules/babel-polyfill",
       "<rootDir>/node_modules/babel-runtime",
@@ -80,7 +79,7 @@
   ],
   "dependencies": {
     "fbjs": "^0.7.2",
-    "react": "^0.14.7"
+    "react": "^15.0.0-rc.1"
   },
   "devDependencies": {
     "babel-cli": "^6.6.0",

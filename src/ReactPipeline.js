@@ -1,10 +1,7 @@
-import ReactDefaultBatchingStrategy from 'react/lib/ReactDefaultBatchingStrategy';
 import ReactDefaultInjection from 'react/lib/ReactDefaultInjection';
 import ReactElement from 'react/lib/ReactElement';
-import ReactInstanceHandles from 'react/lib/ReactInstanceHandles';
-import ReactServerBatchingStrategy from 'react/lib/ReactServerBatchingStrategy';
 import ReactPipelineRenderingTransaction from './ReactPipelineRenderingTransaction';
-import ReactUpdates from 'react/lib/ReactUpdates';
+import ReactDOMContainerInfo from 'react/lib/ReactDOMContainerInfo';
 import instantiateReactComponent from 'react/lib/instantiateReactComponent';
 
 import emptyObject from 'fbjs/lib/emptyObject';
@@ -33,21 +30,18 @@ export default class ReactPipeline {
    */
   static start(element) {
     /* istanbul ignore next */
-    !ReactElement.isValidElement(element) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'start(): You must pass a valid ReactElement.') : invariant(false) : undefined;
+    !ReactElement.isValidElement(element) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'start(): You must pass a valid ReactElement.') : invariant(false) : void 0;
 
     let transaction;
     /* istanbul ignore next */
     try {
-      ReactUpdates.injection
-        .injectBatchingStrategy(ReactServerBatchingStrategy);
-
-      const id = ReactInstanceHandles.createReactRootID();
       transaction = ReactPipelineRenderingTransaction.getPooled(true);
 
       return new Promise((resolve, reject) => {
         transaction.perform(function () {
-          const componentInstance = instantiateReactComponent(element, null);
-          componentInstance.mountComponent(id, transaction, emptyObject);
+          const componentInstance = instantiateReactComponent(element);
+          componentInstance
+            .mountComponent(transaction, null, ReactDOMContainerInfo(), emptyObject);
 
           startTasks.call(componentInstance)
           .then(() => {
@@ -58,10 +52,6 @@ export default class ReactPipeline {
       });
     } finally {
       ReactPipelineRenderingTransaction.release(transaction);
-      // Revert to the DOM batching strategy since these two renderers
-      // currently share these stateful modules.
-      ReactUpdates.injection
-        .injectBatchingStrategy(ReactDefaultBatchingStrategy);
     }
   }
 }

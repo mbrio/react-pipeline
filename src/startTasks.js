@@ -1,4 +1,45 @@
 /**
+ * Tricks React to not cache the specified component.
+ *
+ * @param {object} component The component to monkey patch
+ */
+function trickReactToNotCache(component) {
+  if (component) {
+    if (component._flags !== undefined) { component._flags = 1; }
+    if (component._nativeNode !== undefined) { component._nativeNode = {}; }
+    trickReactToNotCache(component._renderedComponent);
+  }
+}
+
+/**
+ * Gets all of the rendered children for the specified component.
+ *
+ * @param {object} component The parent component to retrieve children for
+ * @return {object[]}
+ */
+function getChildren(component) {
+  const children = [];
+  let renderedChildren = component._renderedChildren;
+
+  if (component._renderedComponent) {
+    if (component._renderedComponent._instance && component._renderedComponent._instance.exec) {
+      children.push(component._renderedComponent);
+    } else if (component._renderedComponent._renderedChildren) {
+      renderedChildren = component._renderedComponent._renderedChildren;
+    }
+  }
+
+  if (renderedChildren) {
+    for (let key in renderedChildren) {
+      const child = renderedChildren[key];
+      children.push(child);
+    }
+  }
+
+  return children;
+}
+
+/**
  * Runs the task and each of it's children's tasks.
  *
  * It first runs it's own element's exec() method if one exists; when it's
@@ -23,6 +64,11 @@
 export default function startTasks() {
   const inst = this._instance;
 
+  const children = getChildren(this).map((c) => {
+    trickReactToNotCache(c);
+    return c;
+  });
+
   if (inst && inst.componentWillExec) {
     inst.componentWillExec();
   }
@@ -33,24 +79,6 @@ export default function startTasks() {
   return exec().then(() => {
     return new Promise((resolve, reject) => {
       forceUpdate(() => {
-        const children = [];
-        let renderedChildren = this._renderedChildren;
-
-        if (this._renderedComponent) {
-          if (this._renderedComponent._instance && this._renderedComponent._instance.exec) {
-            children.push(this._renderedComponent);
-          } else if (this._renderedComponent._renderedChildren) {
-            renderedChildren = this._renderedComponent._renderedChildren;
-          }
-        }
-
-        if (renderedChildren) {
-          for (let key in renderedChildren) {
-            const child = renderedChildren[key];
-            children.push(child);
-          }
-        }
-
         if (children.length === 0) {
           if (inst && inst.componentDidExec) { inst.componentDidExec(); }
           return resolve();

@@ -1,10 +1,9 @@
-import ReactServerRenderingTransaction from 'react/lib/ReactServerRenderingTransaction';
-
+import ReactReconcileTransaction from 'react/lib/ReactReconcileTransaction';
 /**
- * Provides a `CallbackQueue` queue for collecting `onDOMReady` callbacks
- * during the performing of the transaction.
+ * Provides a queue for collecting `componentDidMount` and
+ * `componentDidUpdate` callbacks during the transaction.
  */
-const ON_DOM_READY_QUEUEING = {
+var ON_DOM_READY_QUEUEING = {
   /**
    * Initializes the internal `onDOMReady` queue.
    */
@@ -13,10 +12,7 @@ const ON_DOM_READY_QUEUEING = {
   },
 
   /**
-   * Process all `onDOMReady` callbacks. This is what sets
-   * ReactPipelineRenderingTransaction apart from
-   * ReactServerRenderingTransaction. It ensures all lifecycle methods are
-   * called.
+   * After DOM is flushed, invoke all registered `onDOMReady` callbacks.
    */
   close: function () {
     this.reactMountReady.notifyAll();
@@ -28,18 +24,19 @@ const ON_DOM_READY_QUEUEING = {
  * being member methods, but with an implied ordering while being isolated from
  * each other.
  */
-const TRANSACTION_WRAPPERS = [ON_DOM_READY_QUEUEING];
+var TRANSACTION_WRAPPERS = [ON_DOM_READY_QUEUEING];
 
-export default class ReactPipelineRenderingTransaction extends ReactServerRenderingTransaction {
-  constructor(renderToStaticMarkup) {
-    super(renderToStaticMarkup);
+export default class ReactPipelineRenderingTransaction extends ReactReconcileTransaction {
+  constructor() {
+    super(false);
   }
 
   /**
    * @see Transaction
    * @abstract
    * @final
-   * @return {array} Empty list of operation wrap procedures.
+   * @return {array<object>} List of operation wrap procedures.
+   *   TODO: convert to array<TransactionWrapper>
    */
   getTransactionWrappers() {
     return TRANSACTION_WRAPPERS;
