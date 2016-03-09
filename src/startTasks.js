@@ -63,18 +63,14 @@ function getChildren(component) {
  */
 export default function startTasks() {
   const inst = this._instance;
-
+  const exec = inst && inst.exec ? inst::inst.exec : () => Promise.resolve();
+  const forceUpdate = inst && inst.forceUpdate ? inst::inst.forceUpdate : (cb) => cb();
   const children = getChildren(this).map((c) => {
     trickReactToNotCache(c);
     return c;
   });
 
-  if (inst && inst.componentWillExec) {
-    inst.componentWillExec();
-  }
-
-  const exec = inst && inst.exec ? inst::inst.exec : () => Promise.resolve();
-  const forceUpdate = inst && inst.forceUpdate ? inst::inst.forceUpdate : (cb) => cb();
+  if (inst && inst.componentWillExec) { inst.componentWillExec(); }
 
   return exec().then(() => {
     return new Promise((resolve, reject) => {
