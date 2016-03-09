@@ -2,11 +2,11 @@ import React from 'react';
 
 const ReactPipeline = require('../../src/ReactPipeline').default;
 const Task = require('../../src/Task').default;
-const ReactPipelineStartMixin = require('../../src/ReactPipelineStartMixin').default;
+const startTasks = require('../../src/startTasks').default;
 
-describe('ReactPipelineStartMixin', () => {
+describe('startTasks', () => {
   describe('start', () => {
-    pit('ensure child properties are updates after tasks have completed', () => {
+    pit('ensure child properties are updated after tasks have completed', () => {
       const mockCallback = jest.genMockFunction();
 
       class ParentTask extends Task {
@@ -85,7 +85,7 @@ describe('ReactPipelineStartMixin', () => {
           _instance: { componentWillExec: mockCallback }
         };
 
-        return ReactPipelineStartMixin.start.call(mock).then(() => {
+        return startTasks.call(mock).then(() => {
           expect(mockCallback).toBeCalled();
         });
       });
@@ -97,7 +97,7 @@ describe('ReactPipelineStartMixin', () => {
           _instance: { exec: mockCallback }
         };
 
-        return ReactPipelineStartMixin.start.call(mock).then(() => {
+        return startTasks.call(mock).then(() => {
           expect(mockCallback).toBeCalled();
         });
       });
@@ -115,7 +115,7 @@ describe('ReactPipelineStartMixin', () => {
               }
             };
 
-            return ReactPipelineStartMixin.start.call(mock).then(() => {
+            return startTasks.call(mock).then(() => {
               expect(mockCallback).toBeCalled();
               expect(mockExec).toBeCalled();
             });
@@ -131,7 +131,7 @@ describe('ReactPipelineStartMixin', () => {
               }
             };
 
-            return ReactPipelineStartMixin.start.call(mock).then(() => {
+            return startTasks.call(mock).then(() => {
               expect(mockCallback).toBeCalled();
             });
           });
@@ -144,7 +144,9 @@ describe('ReactPipelineStartMixin', () => {
             const mock = {
               _renderedComponent: {
                 _renderedChildren: {
-                  test: { start: mockStart }
+                  test: {
+                    _instance: { exec: mockStart }
+                  }
                 }
               },
               _instance: {
@@ -152,7 +154,7 @@ describe('ReactPipelineStartMixin', () => {
               }
             };
 
-            ReactPipelineStartMixin.start.call(mock).then(() => {
+            startTasks.call(mock).then(() => {
               fail();
             }).catch(err => {
               expect(err.message).toBe('error');
@@ -167,7 +169,9 @@ describe('ReactPipelineStartMixin', () => {
             const mock = {
               _renderedComponent: {
                 _renderedChildren: {
-                  test: { start: mockStart }
+                  test: {
+                    _instance: { exec: mockStart }
+                  }
                 }
               },
               _instance: {
@@ -175,7 +179,7 @@ describe('ReactPipelineStartMixin', () => {
               }
             };
 
-            return ReactPipelineStartMixin.start.call(mock).then(() => {
+            return startTasks.call(mock).then(() => {
               expect(mockStart).toBeCalled();
             });
           });
@@ -187,7 +191,9 @@ describe('ReactPipelineStartMixin', () => {
             const mock = {
               _renderedComponent: {
                 _renderedChildren: {
-                  test: { start: mockStart }
+                  test: {
+                    _instance: { exec: mockStart }
+                  }
                 }
               },
               _instance: {
@@ -196,7 +202,7 @@ describe('ReactPipelineStartMixin', () => {
               }
             };
 
-            return ReactPipelineStartMixin.start.call(mock).then(() => {
+            return startTasks.call(mock).then(() => {
               expect(mockCallback).toBeCalled();
               expect(mockStart).toBeCalled();
             });
@@ -210,7 +216,9 @@ describe('ReactPipelineStartMixin', () => {
             const mock = {
               _renderedComponent: {
                 _renderedChildren: {
-                  test: { start: mockStart }
+                  test: {
+                    _instance: { exec: mockStart }
+                  }
                 }
               },
               _instance: {
@@ -218,7 +226,7 @@ describe('ReactPipelineStartMixin', () => {
               }
             };
 
-            ReactPipelineStartMixin.start.call(mock).then(() => {
+            startTasks.call(mock).then(() => {
               fail();
             }).catch(err => {
               expect(err.message).toBe('error');
@@ -233,7 +241,9 @@ describe('ReactPipelineStartMixin', () => {
             const mock = {
               _renderedComponent: {
                 _renderedChildren: {
-                  test: { start: mockStart }
+                  test: {
+                    _instance: { exec: mockStart }
+                  }
                 }
               },
               _instance: {
@@ -241,30 +251,22 @@ describe('ReactPipelineStartMixin', () => {
               }
             };
 
-            return ReactPipelineStartMixin.start.call(mock).then(() => {
+            return startTasks.call(mock).then(() => {
               expect(mockStart).toBeCalled();
             });
           });
 
           pit('should call componentDidExec if it exists on the instance', () => {
             const mockCallback = jest.genMockFunction();
-            const mockStart = jest.genMockFunction()
-              .mockImplementation(() => Promise.resolve());
             const mock = {
-              _renderedComponent: {
-                _renderedChildren: {
-                  test: { start: mockStart }
-                }
-              },
               _instance: {
                 props: { parallelTasks: true },
                 componentDidExec: mockCallback
               }
             };
 
-            return ReactPipelineStartMixin.start.call(mock).then(() => {
+            return startTasks.call(mock).then(() => {
               expect(mockCallback).toBeCalled();
-              expect(mockStart).toBeCalled();
             });
           });
         });
@@ -279,11 +281,13 @@ describe('ReactPipelineStartMixin', () => {
               .mockImplementation(() => Promise.resolve());
             const mock = {
               _renderedChildren: {
-                test: { start: mockStart }
+                test: {
+                  _instance: { exec: mockStart }
+                }
               }
             };
 
-            return ReactPipelineStartMixin.start.call(mock).then(() => {
+            return startTasks.call(mock).then(() => {
               expect(mockStart).toBeCalled();
             });
           });
@@ -295,11 +299,13 @@ describe('ReactPipelineStartMixin', () => {
               .mockImplementation(() => Promise.resolve());
             const mock = {
               _renderedChildren: {
-                test: { start: mockStart }
+                test: {
+                  _instance: { exec: mockStart }
+                }
               }
             };
 
-            return ReactPipelineStartMixin.start.call(mock).then(() => {
+            return startTasks.call(mock).then(() => {
               expect(mockStart).toBeCalled();
             });
           });

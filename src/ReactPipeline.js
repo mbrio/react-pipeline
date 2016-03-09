@@ -1,18 +1,19 @@
 import ReactDefaultBatchingStrategy from 'react/lib/ReactDefaultBatchingStrategy';
+import ReactDefaultInjection from 'react/lib/ReactDefaultInjection';
 import ReactElement from 'react/lib/ReactElement';
 import ReactInstanceHandles from 'react/lib/ReactInstanceHandles';
 import ReactServerBatchingStrategy from 'react/lib/ReactServerBatchingStrategy';
 import ReactPipelineRenderingTransaction from './ReactPipelineRenderingTransaction';
 import ReactUpdates from 'react/lib/ReactUpdates';
+import instantiateReactComponent from 'react/lib/instantiateReactComponent';
 
 import emptyObject from 'fbjs/lib/emptyObject';
 import invariant from 'fbjs/lib/invariant';
 
 import pkg from '../package.json';
-import instantiatePipelineComponent from './instantiatePipelineComponent';
-import ReactPipelineInjection from './ReactPipelineInjection';
+import startTasks from './startTasks';
 
-ReactPipelineInjection.inject();
+ReactDefaultInjection.inject();
 
 /**
  * Class for executing a React pipeline.
@@ -28,7 +29,7 @@ export default class ReactPipeline {
    * Runs all of the tasks within the pipeline. This is very similar to the
    * server rendering that ships with React.
    * @param {ReactElement} element
-   * @return {Promise<string, Error>} the Promise associated with the Task tree
+   * @return {Promise.<string, Error>} the Promise associated with the Task tree
    *                                  execution, resolves to the rendered HTML
    */
   static start(element) {
@@ -46,11 +47,11 @@ export default class ReactPipeline {
 
       return new Promise((resolve, reject) => {
         transaction.perform(function () {
-          const componentInstance = instantiatePipelineComponent(element, null);
+          const componentInstance = instantiateReactComponent(element, null);
           const mountedComponent = componentInstance
           .mountComponent(id, transaction, emptyObject);
 
-          componentInstance.start()
+          startTasks.call(componentInstance)
           .then(() => {
             componentInstance.unmountComponent();
             resolve(mountedComponent);
