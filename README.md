@@ -26,10 +26,6 @@ version to major, at which time React Pipeline will match the exactly.
 
 ## Roadmap
 
-- Simplify internal API futher. This means that developers should rely on the
-  two exported classes that React Pipeline makes available to be stable, but
-  any internal classes that are not expored by index.js to be considered
-  volatile.
 - Update to React v15
 - Utilize the `render()` method to output a visual representation
   of the pipeline. This could be used to generate administrative interfaces or
