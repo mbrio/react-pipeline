@@ -7,7 +7,7 @@ describe('ReactPipelineDOMComponent', () => {
   describe('_reconcilerInstantiateChildren', () => {
     it('should call our custom instantiateChildren method', () => {
       const context = {};
-     
+
       ReactPipelineDOMComponent.prototype
         ._reconcilerInstantiateChildren.call(context);
       expect(ReactPipelineChildReconciler.instantiateChildren).toBeCalled();
@@ -15,7 +15,7 @@ describe('ReactPipelineDOMComponent', () => {
 
     it('should call our custom instantiateChildren method', () => {
       const context = { _currentElement: { _owner: {} } };
-     
+
       ReactPipelineDOMComponent.prototype
         ._reconcilerInstantiateChildren.call(context);
       expect(ReactPipelineChildReconciler.instantiateChildren).toBeCalled();
@@ -25,7 +25,7 @@ describe('ReactPipelineDOMComponent', () => {
       const prevEnv = process.env.NODE_ENV;
       process.env.NODE_ENV = 'production';
       const context = { _currentElement: { _owner: {} } };
-      
+
       ReactPipelineDOMComponent.prototype
         ._reconcilerInstantiateChildren.call(context);
       expect(ReactPipelineChildReconciler.instantiateChildren).toBeCalled();

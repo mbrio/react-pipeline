@@ -83,7 +83,7 @@ describe('PipelineElement', () => {
           expect(mockCallback).toBeCalled();
         });
       });
-      
+
       pit('executes multiple levels of child tasks when parental element has no exec', () => {
         const mockCallback = jest.genMockFunction();
         return ReactPipeline.start(

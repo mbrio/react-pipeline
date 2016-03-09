@@ -13,7 +13,7 @@
 'use strict';
 
 /**
- * This is the only change I made to the original file, change the 
+ * This is the only change I made to the original file, change the
  * require for ReactCompositeComponent
  */
 var ReactCompositeComponent = require('./ReactPipelineComponent').default;

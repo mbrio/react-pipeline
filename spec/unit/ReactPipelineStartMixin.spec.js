@@ -13,11 +13,11 @@ describe('ReactPipelineStartMixin', () => {
         state = {
           prevMessage: null
         };
-        
+
         handleComplete(message) {
           this.setState({ prevMessage: message });
         }
-        
+
         render() {
           return(
             <Task>
@@ -27,7 +27,7 @@ describe('ReactPipelineStartMixin', () => {
           );
         }
       }
-      
+
       class ChildTask extends Task {
         static propTypes = {
           message: React.PropTypes.string,
@@ -55,14 +55,14 @@ describe('ReactPipelineStartMixin', () => {
 
         class ChildTask extends Task {
           componentWillMount() { mockCallback(this.props.serverUrl); }
-          componentWillExec() { mockCallback(this.props.serverUrl); } 
+          componentWillExec() { mockCallback(this.props.serverUrl); }
 
           exec() {
             mockCallback();
             return Promise.resolve();
           }
         }
-        
+
         class ParentTask extends Task {
           state = { serverUrl: null };
           exec() {
@@ -89,7 +89,7 @@ describe('ReactPipelineStartMixin', () => {
           expect(mockCallback).toBeCalled();
         });
       });
-      
+
       pit('should call exec if it exists on the instance', () => {
         const mockCallback = jest.genMockFunction()
           .mockImplementation(() => Promise.resolve());

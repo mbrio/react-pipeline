@@ -54,7 +54,7 @@ describe('Task', () => {
       });
     });
   });
-  
+
   describe('render', () => {
     pit('should render basic content', () => {
       return ReactPipeline.start(<Task><Task><Task /></Task><Task /></Task>)
