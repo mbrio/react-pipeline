@@ -45,7 +45,7 @@ asynchronous, `ReactPipeline` will default to running each of the child tasks in
 series. If a developer wants to run the tasks in parallel, the parental
 component must have a property `parallelTasks` set to `true`.
 
-```
+```jsx
 import ReactPipeline, { Task } from 'react-pipeline';
 
 // Run tasks in series
@@ -73,7 +73,7 @@ In order to implement your task's functionality you need only inherit from
 `Task` and override the `exec()` method.  The `exec()` method must return a
 Promise.
 
-```
+```jsx
 import { Task } from 'react-pipeline';
 
 export default class PauseTask extends Task {
@@ -93,7 +93,7 @@ supporting child tasks, to ensure `render()` outputs it's `this.props.children`.
 If child tasks are not executing it is because your component is not rendering
 it's children.
 
-```
+```jsx
 class AwesomeClass {
   exec() {
     return Promise.resolve();
@@ -110,7 +110,7 @@ series once the parent's task is complete. The exception to this rule is when
 setting the property `parallelTasks` to `true`, each of it's children's tasks
 will be run in parallel.
 
-```
+```jsx
 ReactPipeline.start(
   <Task>
     <CreateAWSServer>
@@ -146,7 +146,7 @@ When creating a custom task it is possible to embed child tasks within it to
 create a reusable group of tasks. Using the above example we could combine the
 tasks into a reusable group.
 
-```
+```jsx
 class GroupTask extends Task {
   render() {
     return (
@@ -182,7 +182,7 @@ on uncompleted tasks by setting the state in the parent. This could be useful
 if you are planning on piping the result of one task to the next. This is only
 reliable when running tasks in series.
 
-```
+```jsx
 class ParentTask extends Task {
   state = {
     lastResult: null
